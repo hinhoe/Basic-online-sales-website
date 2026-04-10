@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Demo Shop</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
+body{background:#f3f5f7}
+
+/* ===== HEADER ===== */
+.topbar{
+    background:#1f6ed4;
+    color:white;
+    padding:10px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:22px;
+    font-weight:700;
+}
+.logo img{width:40px}
+
+.search-box{
+    flex:1;
+    margin:0 40px;
+}
+.search-box input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:8px;
+}
+
+.header-actions a{
+    color:white;
+    margin-left:20px;
+    text-decoration:none;
+    font-weight:600;
+}
+
+/* ===== MENU ===== */
+.menu{
+    background:white;
+    padding:15px 30px;
+    display:flex;
+    gap:30px;
+    font-weight:600;
+}
+.menu a{color:#333;text-decoration:none}
+
+/* ===== LAYOUT ===== */
+.container{
+    display:flex;
+    padding:20px 30px;
+    gap:20px;
+}
+
+/* LEFT CATEGORY */
+.sidebar{
+    width:250px;
+    background:white;
+    padding:20px;
+    border-radius:12px;
+}
+.sidebar h3{margin-bottom:15px}
+.sidebar ul{list-style:none}
+.sidebar li{
+    padding:10px 0;
+    border-bottom:1px solid #eee;
+}
+
+/* MAIN CONTENT */
+.main{
+    flex:1;
+}
+
+/* BANNERS */
+.banner-large{
+    height:250px;
+    background:url("https://picsum.photos/1000/300") center/cover;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.banner-row{
+    display:flex;
+    gap:20px;
+}
+.banner-small{
+    flex:1;
+    height:140px;
+    background:url("https://picsum.photos/500/300") center/cover;
+    border-radius:15px;
+}
+
+/* PRODUCT GRID */
+.section-title{
+    margin:25px 0 15px;
+    font-size:22px;
+    font-weight:700;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.card{
+    background:white;
+    border-radius:15px;
+    padding:15px;
+    text-align:center;
+    transition:.2s;
+}
+.card:hover{transform:translateY(-5px)}
+.card img{width:100%;border-radius:10px}
+.price{color:#e53935;font-weight:700;margin-top:8px}
+button{
+    margin-top:10px;
+    padding:8px 15px;
+    border:none;
+    background:#1f6ed4;
+    color:white;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+footer{
+    margin-top:40px;
+    padding:20px;
+    background:#1f6ed4;
+    color:white;
+    text-align:center;
+}
+
+/* ===== LOGIN MODAL ===== */
+.overlay{
+    position:fixed;
+    top:0;left:0;
+    width:100%;height:100%;
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(4px);
+    display:none;
+    justify-content:center;
+    align-items:center;
+    z-index:999;
+}
+
+.login-box{
+    background:white;
+    width:350px;
+    padding:30px;
+    border-radius:15px;
+    text-align:center;
+    position:relative;
+    animation:popup .3s ease;
+}
+
+@keyframes popup{
+    from{transform:scale(.8);opacity:0}
+    to{transform:scale(1);opacity:1}
+}
+
+.login-box input{
+    width:100%;
+    padding:12px;
+    margin-top:15px;
+    border:1px solid #ddd;
+    border-radius:8px;
+}
+
+.login-btn{
+    width:100%;
+    margin-top:20px;
+    padding:12px;
+    background:#1f6ed4;
+    border:none;
+    color:white;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+}
+
+.close{
+    position:absolute;
+    right:15px;
+    top:10px;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.note{margin-top:15px;font-size:14px}
+
+/* HERO SLIDER */
+.hero{
+    background:white;
+    padding:15px;
+    border-radius:15px;
+}
+
+.hero-tabs{
+    display:flex;
+    gap:10px;
+    margin-bottom:10px;
+}
+.tab{
+    background:#eee;
+    padding:8px 14px;
+    border-radius:20px;
+    cursor:pointer;
+    font-weight:600;
+}
+.tab.active{background:#1f6ed4;color:white}
+
+.slider{
+    position:relative;
+}
+.slider img{
+    width:100%;
+    border-radius:15px;
+}
+.prev,.next{
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    background:white;
+    border:none;
+    font-size:22px;
+    padding:8px 14px;
+    border-radius:50%;
+    cursor:pointer;
+}
+.prev{left:10px}
+.next{right:10px}
+
+/* 3 banner */
+.sub-banners{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:20px;
+    margin:20px 0;
+}
+.sub-banners img{
+    width:100%;
+    border-radius:15px;
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- HEADER -->
+<div class="topbar">
+    <div class="logo">
+        <img src="https://picsum.photos/50">
+        Demo Shop
+    </div>
+
+    <div class="search-box">
+        <input placeholder="Tìm kiếm sản phẩm...">
+    </div>
+
+    <div class="header-actions">
+        <a href="#" onclick="openLogin()">Đăng nhập</a>        
+        <a href="cart.html">Giỏ hàng</a>
+        <a href="un_login_profile.html">Tài khoản</a>
+    </div>
+</div>
+
+<!-- MENU -->
+<div class="menu">
+    <a href="#">Sản phẩm mới</a>
+    <a href="#">Khuyến mãi</a>
+    <a href="#">Tin tức</a>
+    <a href="#">Thông báo</a>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>Danh mục</h3>
+        <ul>
+            <li><a href="category.html">Máy tính</a></li>
+            <li><a href="category.html">Điện thoại</a></li>
+            <li><a href="category.html">Đồng hồ thông minh</a></li>            
+            <li><a href="category.html">Âm thanh-Tai nghe</a></li>
+            <li><a href="category.html">Cáp sạc</a></li>
+            <li><a href="category.html">camera</a></li>
+            <li><a href="category.html">Phụ kiện</a></li>
+            <li><a href="category.html">PC, linh kiện</a></li>
+            <li><a href="category.html">Sản phẩm 90%</a></li>
+        </ul>
+    </div>
+
+    <!-- MAIN -->
+    <div class="main">
+
+    <!-- ===== HERO SLIDER ===== -->
+    <div class="hero">
+
+        <div class="hero-tabs">
+            <div class="tab active" onclick="showSlide(0)">REDMI NOTE 15</div>
+            <div class="tab" onclick="showSlide(1)">GALAXY A17</div>
+            <div class="tab" onclick="showSlide(2)">MACBOOK M5</div>
+            <div class="tab" onclick="showSlide(3)">LAPTOP SALE</div>
+        </div>
+
+        <div class="slider">
+            <img id="slideImg" src="https://picsum.photos/1200/350?1">
+            <button class="prev" onclick="nextSlide(-1)">❮</button>
+            <button class="next" onclick="nextSlide(1)">❯</button>
+        </div>
+    </div>
+
+    <!-- ===== 3 BANNER NHỎ ===== -->
+    <div class="sub-banners">
+        <img src="https://picsum.photos/400/160?1">
+        <img src="https://picsum.photos/400/160?2">
+        <img src="https://picsum.photos/400/160?3">
+    </div>
+
+    <!-- ===== SẢN PHẨM NỔI BẬT ===== -->
+    <div class="section-title">Sản phẩm nổi bật</div>
+
+    <div class="products">
+        <div class="card">
+            <img src="https://picsum.photos/200?1">
+            <h4>iPhone 15</h4>
+            <div class="price">22.990.000đ</div>
+            <button onclick="location.href='product.html'">Xem</button>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/200?2">
+            <h4>Galaxy S24</h4>
+            <div class="price">18.990.000đ</div>
+            <button onclick="location.href='product.html'">Xem</button>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/200?3">
+            <h4>Macbook Air M5</h4>
+            <div class="price">27.990.000đ</div>
+            <button onclick="location.href='product.html'">Xem</button>
+        </div>
+
+        <div class="card">
+            <img src="https://picsum.photos/200?4">
+            <h4>AirPods Pro</h4>
+            <div class="price">4.990.000đ</div>
+            <button onclick="location.href='product.html'">Xem</button>
+        </div>
+    </div>
+
+</div>
+</div>
+
+<footer>
+    © 2026 Demo Shop
+</footer>
+
+<!-- LOGIN MODAL -->
+<div id="loginModal" class="overlay">
+    <div class="login-box">
+        <span class="close" onclick="closeLogin()">×</span>
+        <h2>Đăng nhập</h2>
+
+        <input type="text" placeholder="Email">
+        <input type="password" placeholder="Mật khẩu">
+
+        <button class="login-btn">Đăng nhập</button>
+
+        <p class="note">Chưa có tài khoản? <a href="#">Đăng ký</a></p>
+    </div>
+</div>
+
+
+<script>
+function openLogin(){
+    document.getElementById("loginModal").style.display="flex";
+}
+
+function closeLogin(){
+    document.getElementById("loginModal").style.display="none";
+}
+
+// đóng khi click ra ngoài
+window.onclick=function(e){
+    if(e.target.id==="loginModal") closeLogin();
+}
+</script>
+
+<script>
+const slides=[
+ "https://picsum.photos/1200/350?1",
+ "https://picsum.photos/1200/350?2",
+ "https://picsum.photos/1200/350?3",
+ "https://picsum.photos/1200/350?4"
+];
+
+let current=0;
+
+function showSlide(i){
+    current=i;
+    document.getElementById("slideImg").src=slides[i];
+
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab")[i].classList.add("active");
+}
+
+function nextSlide(n){
+    current+=n;
+    if(current<0) current=slides.length-1;
+    if(current>=slides.length) current=0;
+    showSlide(current);
+}
+
+// auto slide
+setInterval(()=>nextSlide(1),5000);
+</script>
+</body>
+</html>
