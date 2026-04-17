@@ -1,0 +1,174 @@
+/* =========================================
+   VARIABLES & RESET
+========================================= */
+:root {
+    --primary: #1f6ed4;
+    --primary-hover: #155bb5;
+    --danger: #e53935;
+    --success: #009688;
+    --bg-color: #f4f6f8;
+    --text-main: #333;
+    --text-muted: #777;
+    --white: #ffffff;
+    --border-color: #eee;
+    --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+    --shadow-md: 0 8px 20px rgba(0,0,0,0.08);
+    --radius-md: 10px;
+    --radius-lg: 15px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background: var(--bg-color);
+    color: var(--text-main);
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================================
+   TYPOGRAPHY & BUTTONS
+========================================= */
+h1, h2, h3, h4 {
+    color: var(--text-main);
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    background: var(--primary);
+    color: var(--white);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover { background: var(--primary-hover); }
+.btn-danger { background: var(--danger); }
+.btn-danger:hover { background: #c62828; }
+.btn-success { background: var(--success); }
+
+/* =========================================
+   COMMON LAYOUT (HEADER & CONTAINER)
+========================================= */
+.topbar {
+    background: var(--primary);
+    color: var(--white);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+}
+
+.topbar .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 22px;
+    font-weight: 700;
+}
+
+.topbar .logo img { width: 40px; border-radius: 50%; }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* =========================================
+   CARDS & PRODUCTS
+========================================= */
+.card {
+    background: var(--white);
+    padding: 15px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.card img {
+    width: 100%;
+    border-radius: var(--radius-md);
+    margin-bottom: 10px;
+}
+
+.price {
+    color: var(--danger);
+    font-weight: 700;
+    margin: 8px 0;
+}
+
+/* =========================================
+   MODALS
+========================================= */
+.overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-box {
+    background: var(--white);
+    padding: 30px;
+    border-radius: var(--radius-lg);
+    text-align: center;
+    width: 350px;
+    position: relative;
+    box-shadow: var(--shadow-md);
+    animation: popup 0.3s ease;
+}
+
+@keyframes popup {
+    from { transform: scale(0.8); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+/* =========================================
+   ADMIN & USER SIDEBAR LAYOUT
+========================================= */
+.dashboard-layout { display: flex; min-height: 100vh; }
+.sidebar {
+    width: 260px;
+    background: var(--white);
+    padding: 25px;
+    border-right: 1px solid var(--border-color);
+}
+.sidebar-menu { margin-top: 20px; }
+.sidebar-menu div {
+    padding: 12px 15px;
+    margin-bottom: 8px;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: background 0.2s;
+}
+.sidebar-menu div:hover, .sidebar-menu div.active {
+    background: #e8f0fe;
+    color: var(--primary);
+    font-weight: 700;
+}
+.main-content { flex: 1; padding: 30px; }
