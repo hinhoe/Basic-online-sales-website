@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1:3307
--- Thời gian đã tạo: Th4 23, 2026 lúc 09:14 AM
+-- Thời gian đã tạo: Th4 23, 2026 lúc 06:43 PM
 -- Phiên bản máy phục vụ: 10.4.32-MariaDB
 -- Phiên bản PHP: 8.2.12
 
@@ -95,7 +95,14 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (2, 1, 'Galaxy S24 Ultra', 'Flagship AI đỉnh cao của Samsung.', 18990000, 30, 'https://images.samsung.com/is/image/samsung/p6pim/vn/feature/164987682/vn-feature-smartphones-539782779?$FB_TYPE_A_MO_JPG$', '2026-04-23 06:16:28'),
 (3, 2, 'Macbook Air M5', 'Laptop siêu mỏng nhẹ, pin trâu.', 27990000, 20, 'https://www.apple.com/v/macbook-air/y/images/overview/hero/hero_static__c9sislzzicq6_large.png', '2026-04-23 06:16:28'),
 (4, 3, 'AirPods Pro 2', 'Tai nghe chống ồn chủ động.', 4990000, 100, 'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:format(webp):quality(75)/2023_9_18_638306528295272368_tai-nghe-airpods-pro-2023-usb-c-dd.jpg', '2026-04-23 06:16:28'),
-(6, 1, 'châu huy', 'adađa', 123, 0, 'https://www.shutterstock.com/image-vector/sparkling-light-teal-number-one-260nw-2698552113.jpg', '2026-04-23 06:25:18');
+(6, 1, 'châu huy', 'adađa', 123, 0, 'https://www.shutterstock.com/image-vector/sparkling-light-teal-number-one-260nw-2698552113.jpg', '2026-04-23 06:25:18'),
+(7, 3, 'tài', 'anh này ngầu', 999999, 0, 'img/products/prod_1776953543_816.png', '2026-04-23 14:12:23'),
+(8, 1, 'hùng', 'anh này cx ngầu', 999999, 0, 'img/products/prod_1776953563_422.png', '2026-04-23 14:12:43'),
+(9, 2, 'huy', 'rác', -2147483648, 0, 'img/products/prod_1776953800_730.png', '2026-04-23 14:16:40'),
+(10, 1, 'meomeo', 'con mèo', 67676767, 0, 'img/products/prod_1776953883_940.png', '2026-04-23 14:18:03'),
+(11, 2, 'susi', 'mèo quá béo', 1102024, 0, 'img/products/prod_1776953930_983.png', '2026-04-23 14:18:50'),
+(12, 1, 'smiling lu', '', 68371838, 0, 'img/products/prod_1776954105_196.png', '2026-04-23 14:21:45'),
+(13, 1, ' evil lulu', 'gâgagagaga', 2147483647, 0, 'img/products/prod_1776954156_786.png', '2026-04-23 14:22:36');
 
 -- --------------------------------------------------------
 
@@ -107,6 +114,8 @@ CREATE TABLE `users` (
   `id` int(11) NOT NULL,
   `fullname` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
+  `phone` varchar(15) DEFAULT NULL,
+  `address` text DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('user','admin') DEFAULT 'user',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
@@ -117,9 +126,10 @@ CREATE TABLE `users` (
 -- Đang đổ dữ liệu cho bảng `users`
 --
 
-INSERT INTO `users` (`id`, `fullname`, `email`, `password`, `role`, `created_at`, `avatar`) VALUES
-(7, 'Quản trị viên', 'admin@gmail.com', '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'admin', '2026-04-23 05:31:15', 'pickle_meow_logo.png'),
-(8, 'anh seng', 'user@gmail.com', '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'user', '2026-04-23 05:31:15', 'user_8_1776927908.png');
+INSERT INTO `users` (`id`, `fullname`, `email`, `phone`, `address`, `password`, `role`, `created_at`, `avatar`) VALUES
+(7, 'Quản trị viên', 'admin@gmail.com', NULL, NULL, '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'admin', '2026-04-23 05:31:15', 'pickle_meow_logo.png'),
+(8, 'anh seng', 'user@gmail.com', '0776545527', 'ádsaccc', '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'user', '2026-04-23 05:31:15', 'user_8_1776927908.png'),
+(9, 'con chó', 'nian@gmail.com', NULL, NULL, '$2y$10$TvzdAVG7vcFRi0SMwkx/qOgKseZpp4fIXC6dI.a/g3wJI9sHJOg6e', 'user', '2026-04-23 16:05:36', 'default.png');
 
 --
 -- Chỉ mục cho các bảng đã đổ
@@ -179,13 +189,13 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT cho bảng `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT cho bảng `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Các ràng buộc cho các bảng đã đổ
