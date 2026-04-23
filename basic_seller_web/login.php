@@ -236,7 +236,7 @@ body::after{ bottom:-80px; right:-80px; }
         <input type="password" name="password" placeholder="Mật khẩu" required>
 
         <button type="submit" name="loginBtn">Đăng nhập</button>        
-        <p>Chưa có tài khoản? <a href="#">Đăng ký ngay</a></p>
+        <p>Chưa có tài khoản? <a href="register.php">Đăng ký ngay</a></p>
     </form>
 </div>
 
