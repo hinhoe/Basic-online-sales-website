@@ -59,11 +59,24 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         <img src="img/pickle_meow_logo.png">
         PickleMeow Shop
     </a>
-    <div class="header-links" style="display:flex; gap:20px;">
-        <a href="index.php" style="color:white; text-decoration:none;">Trang chủ</a>
-        <a href="cart.php" style="color:white; text-decoration:none;">Giỏ hàng</a>
+
+    <div class="search-box">
+        <form action="search.php" method="GET">
+            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm... (Nhấn Enter)" required>
+        </form>
+    </div>
+
+    <div class="header-links">
+        <?php if(isset($_SESSION['user_id'])): ?>
+            <a href="user.php">Chào, <?php echo $_SESSION['fullname']; ?></a>
+            <a href="logout.php">Đăng xuất</a>
+        <?php else: ?>
+            <a href="login.php">Đăng nhập</a>
+        <?php endif; ?>
+        <a href="cart.php">Giỏ hàng</a>
     </div>
 </div>
+
 
 <div class="container">
     <div class="product-flex">

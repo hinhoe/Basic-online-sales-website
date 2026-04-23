@@ -62,7 +62,9 @@ $products = $stmt_prod->fetchAll();
     </a>
 
     <div class="search-box">
-        <input type="text" placeholder="Tìm kiếm sản phẩm...">
+        <form action="search.php" method="GET">
+            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm... (Nhấn Enter)" required>
+        </form>
     </div>
 
     <div class="header-links">
