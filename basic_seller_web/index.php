@@ -13,6 +13,15 @@ $sql_products = "SELECT * FROM products ORDER BY id DESC LIMIT 8";
 $stmt_prod = $conn->prepare($sql_products);
 $stmt_prod->execute();
 $products = $stmt_prod->fetchAll();
+//3. Lấy ảnh ngẫu nhiên làm hero
+// LẤY NGẪU NHIÊN 1 ẢNH SẢN PHẨM LÀM BANNER
+$sql_random = "SELECT image FROM products ORDER BY RAND() LIMIT 1";
+$stmt_rand = $conn->prepare($sql_random);
+$stmt_rand->execute();
+$random_banner = $stmt_rand->fetch();
+
+// Nếu trong database có ảnh thì lấy ảnh đó, nếu rỗng thì dùng ảnh mặc định
+$banner_url = ($random_banner) ? $random_banner['image'] : "img/pickle_meow_logo.png";
 ?>
 <!DOCTYPE html>
 <html lang="vi">
@@ -41,12 +50,31 @@ $products = $stmt_prod->fetchAll();
     .sidebar li{padding:10px 0;border-bottom:1px solid #eee;}
     .sidebar a{text-decoration:none; color:#333;}
     .main{flex:1;}
-    .hero{background:white;padding:15px;border-radius:15px;margin-bottom:20px;}
+    .hero {
+        background: white;
+        padding: 15px;
+        border-radius: 15px;
+        margin-bottom: 20px;
+    }
+
+.hero-img {
+    width: 100%;
+    height: 350px; 
+    object-fit: contain; /* Đổi từ cover sang contain để ảnh tự thu nhỏ vừa khung */
+    border-radius: 10px;
+    background-color: #ffffff; /* Thêm nền trắng đề phòng ảnh nhỏ hơn khung sẽ bị lộ nền */
+}
     .section-title{margin:25px 0 15px;font-size:22px;font-weight:700;}
     .products{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
     .card{background:white;border-radius:15px;padding:15px;text-align:center;transition:.2s;}
     .card:hover{transform:translateY(-5px)}
-    .card img{width:100%;border-radius:10px;height:180px;object-fit:cover;}
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain; /* Thu nhỏ ảnh sản phẩm cho vừa vặn */
+    border-radius: 10px;
+    background-color: #ffffff; 
+}
     .price{color:#e53935;font-weight:700;margin-top:8px}
     button{margin-top:10px;padding:8px 15px;border:none;background:#1f6ed4;color:white;border-radius:8px;cursor:pointer;}
     footer{margin-top:40px;padding:20px;background:#1f6ed4;color:white;text-align:center;}
@@ -100,7 +128,7 @@ $products = $stmt_prod->fetchAll();
 
     <div class="main">
         <div class="hero">
-            <img src="https://picsum.photos/1000/300" style="width:100%; border-radius:10px;">
+            <img src="<?php echo $banner_url; ?>" class="hero-img" alt="Banner Khuyến Mãi">
         </div>
 
         <div class="section-title">Sản phẩm nổi bật</div>
@@ -123,7 +151,7 @@ $products = $stmt_prod->fetchAll();
 </div>
 
 <footer>
-    © 2026 PickleMeow Shop - Design by thg Huy
+    © 2026 PickleMeow Shop - Design by thg Huyngu 
 </footer>
 
 </body>

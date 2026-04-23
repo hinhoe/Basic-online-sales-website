@@ -84,10 +84,14 @@ $display_avatar = !empty($user['avatar']) ? "img/avatars/" . $user['avatar'] : "
     /* CSS giữ nguyên từ bản trước */
     *{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
     body{background:#f4f6f8}
+    
     .topbar{background:#2f6fd6;padding:12px 30px;display:flex;align-items:center;justify-content:space-between;}
-    .logo {color: white;text-decoration: none;display: flex;align-items: center;gap: 10px;font-size: 22px;font-weight: bold;}
-    .logo img {height: 45px;width: 45px;object-fit: cover;border-radius: 50%;}
-    .header-links a{color:white; text-decoration:none; margin-left: 20px;}
+    .logo {color: white;text-decoration: none;display: flex;align-items: center;gap: 10px;font-size: 24px;font-weight: bold;}
+    .logo img {height: 60px;width: 60px;object-fit: cover;border-radius: 50%;}
+    .search-box{flex:1;margin:0 40px;}
+    .search-box input{width:100%;padding:10px 15px;border:none;border-radius:20px;outline:none;}
+    .header-links{display:flex;gap:20px;}
+    .header-links a{color:white;text-decoration:none;font-weight:500;}
 
     .container{max-width:1000px; margin:40px auto; display:flex; gap:25px; padding:0 20px;}
     .sidebar{width:280px; background:white; border-radius:15px; padding:30px; text-align:center; height: fit-content; box-shadow: 0 4px 10px rgba(0,0,0,0.05);}
@@ -114,17 +118,29 @@ $display_avatar = !empty($user['avatar']) ? "img/avatars/" . $user['avatar'] : "
 </head>
 <body>
 
+
 <div class="topbar">
     <a href="index.php" class="logo">
-        <img src="img/pickle_meow_logo.png"> PickleMeow Shop
+        <img src="img/pickle_meow_logo.png">
+        PickleMeow Shop
     </a>
+
+    <div class="search-box">
+        <form action="search.php" method="GET">
+            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm... (Nhấn Enter)" required>
+        </form>
+    </div>
+
     <div class="header-links">
-        <a href="index.php">Trang chủ</a>
+        <?php if(isset($_SESSION['user_id'])): ?>
+            <a href="user.php">Chào, <?php echo $_SESSION['fullname']; ?></a>
+            <a href="logout.php">Đăng xuất</a>
+        <?php else: ?>
+            <a href="login.php">Đăng nhập</a>
+        <?php endif; ?>
         <a href="cart.php">Giỏ hàng</a>
-        <a href="logout.php">Đăng xuất</a>
     </div>
 </div>
-
 <div class="container">
     <div class="sidebar">
         <img class="avatar" src="<?php echo $display_avatar; ?>" alt="Avatar">

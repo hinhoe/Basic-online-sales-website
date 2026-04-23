@@ -55,8 +55,13 @@ body{background:#f3f5f7}
 .products{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
 .card{background:white;padding:15px;border-radius:12px;text-align:center; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
 .card:hover{transform:translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1);}
-.card img{width:100%; height: 160px; object-fit: cover; border-radius:10px; margin-bottom: 10px;}
-.card h4 {font-size: 16px; margin-bottom: 5px; color: #333; height: 38px; overflow: hidden;}
+.card img {
+    width: 100%;
+    height: 180px;
+    object-fit: contain; /* Thu nhỏ ảnh sản phẩm cho vừa vặn */
+    border-radius: 10px;
+    background-color: #ffffff; 
+}.card h4 {font-size: 16px; margin-bottom: 5px; color: #333; height: 38px; overflow: hidden;}
 .price{color:red;font-weight:700; font-size: 18px;}
 button{margin-top:10px;padding:8px 12px;border:none;background:#1f6ed4;color:white;border-radius:8px; cursor: pointer; width: 100%;}
 button:hover {background: #1557a6;}
