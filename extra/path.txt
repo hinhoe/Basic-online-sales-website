@@ -1,0 +1,6 @@
+
+http://localhost/Basic-online-sales-website/basic_seller_web/index.php
+
+http://localhost/phpmyadmin/index.php
+
+https://github.com/hinhoe/Basic-online-sales-website
