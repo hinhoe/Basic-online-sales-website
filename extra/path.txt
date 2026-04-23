@@ -4,3 +4,6 @@ http://localhost/Basic-online-sales-website/basic_seller_web/index.php
 http://localhost/phpmyadmin/index.php
 
 https://github.com/hinhoe/Basic-online-sales-website
+
+chú ý apache port nào (vd: bạn đổi port của apache sang 8000 thì đường link sẽ là
+http://localhost:8000/Basic-online-sales-website/basic_seller_web/index.php)
