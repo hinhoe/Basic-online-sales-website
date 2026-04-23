@@ -1,0 +1,15 @@
+Gửi bạn thân mến, để chạy được web này, hãy làm theo các bước sau:
+
+1/Giải nén thư mục mình vừa gửi và copy thả vào thư mục htdocs trong XAMPP của bạn.
+
+2/Bật Apache và MySQL trên XAMPP lên.
+
+3/Mở trình duyệt vào localhost/phpmyadmin. Bấm New (Mới) để tạo một cơ sở dữ liệu trống, đặt tên chính xác là: picklemeow_shop.
+
+4/Bấm vào database vừa tạo, chọn thẻ Import (Nhập) ở menu phía trên.
+
+5/Bấm Choose File (Chọn tệp) -> Tìm đến file picklemeow_shop.sql nằm trong thư mục code mình gửi. Kéo xuống dưới cùng và bấm Go (Thực hiện) để nạp dữ liệu.
+
+6/LƯU Ý QUAN TRỌNG VỀ KẾT NỐI: Mở file db.php trong thư mục code bằng Notepad hoặc VS Code. Vì máy mình dùng Port SQL là 3307, còn máy bạn tải XAMPP mặc định thường là 3306, nên bạn hãy sửa dòng $port = '3307'; thành $port = '3306'; nhé (và kiểm tra xem $password XAMPP của bạn là rỗng '' hay là 'root').
+
+7/Xong! Mở trình duyệt gõ localhost/tên_thư_mục_vừa_giải_nén để thưởng thức thành quả!
