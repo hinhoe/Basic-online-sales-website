@@ -62,12 +62,24 @@ $display_avatar = !empty($user['avatar']) ? "img/avatars/" . $user['avatar'] : "
     /* CSS y chang bản cũ của bạn */
     *{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
     body{background:#f4f6f8}
-    .topbar{background:#2f6fd6;padding:12px 30px;display:flex;align-items:center;justify-content:space-between; color:white}
-    .topbar a{color:white; text-decoration:none; margin-left: 20px;}
+    
+    .topbar{background:#2f6fd6;padding:12px 30px;display:flex;align-items:center;justify-content:space-between;}
+    .logo {color: white;text-decoration: none;display: flex;align-items: center;gap: 10px;font-size: 24px;font-weight: bold;}
+    .logo img {height: 60px;width: 60px;object-fit: cover;border-radius: 50%;}
+    .search-box{flex:1;margin:0 40px;}
+    .search-box input{width:100%;padding:10px 15px;border:none;border-radius:20px;outline:none;}
+    .header-links{display:flex;gap:20px;}
+    .header-links a{color:white;text-decoration:none;font-weight:500;}
+
     .container{max-width:1000px; margin:40px auto; display:flex; gap:25px; padding:0 20px;}
     .sidebar{width:280px; background:white; border-radius:15px; padding:30px; text-align:center; height:fit-content; box-shadow:0 4px 10px rgba(0,0,0,0.05);}
     .avatar{width:120px; height:120px; border-radius:50%; margin-bottom:15px; object-fit:cover; border:3px solid #e8f0fe;}
-    .menu-item{padding:12px; border-radius:8px; cursor:pointer; color:#555; text-decoration:none; display:block; text-align: left; margin-top:10px;}
+    .menu-item{padding:12px; border-radius:8px; cursor:pointer; color:#555; text-decoration:none; display:block; text-align: left; margin-top:10px;transition: all 0.25s ease;}
+    .menu-item:hover{
+        background:#f1f5ff;   /* nhạt hơn active */
+        color:#2f6fd6;
+        transform: translateX(3px); /* trượt nhẹ sang phải */
+    }
     .active{background:#e8f0fe; color:#2f6fd6; font-weight:600;}
     .content{flex:1; background:white; padding:40px; border-radius:15px; box-shadow:0 4px 10px rgba(0,0,0,0.05);}
     label{display:block; margin-bottom:8px; font-weight:600; color:#555; margin-top: 15px;}
@@ -82,11 +94,25 @@ $display_avatar = !empty($user['avatar']) ? "img/avatars/" . $user['avatar'] : "
 <body>
 
 <div class="topbar">
-    <a href="index.php" style="font-size:22px; font-weight:bold;">PickleMeow Shop</a>
-    <div>
-        <a href="index.php">Trang chủ</a>
+    <a href="index.php" class="logo">
+        <img src="img/pickle_meow_logo.png">
+        PickleMeow Shop
+    </a>
+
+    <div class="search-box">
+        <form action="search.php" method="GET">
+            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm... (Nhấn Enter)" required>
+        </form>
+    </div>
+
+    <div class="header-links">
+        <?php if(isset($_SESSION['user_id'])): ?>
+            <a href="user.php">Chào, <?php echo $_SESSION['fullname']; ?></a>
+            <a href="logout.php">Đăng xuất</a>
+        <?php else: ?>
+            <a href="login.php">Đăng nhập</a>
+        <?php endif; ?>
         <a href="cart.php">Giỏ hàng</a>
-        <a href="logout.php">Đăng xuất</a>
     </div>
 </div>
 
@@ -97,7 +123,8 @@ $display_avatar = !empty($user['avatar']) ? "img/avatars/" . $user['avatar'] : "
         <p style="color:#777; font-size:14px;"><?php echo htmlspecialchars($user['email']); ?></p>
         <div style="margin-top:20px;">
             <a href="user.php" class="menu-item active">👤 Thông tin cá nhân</a>
-            <a href="#" class="menu-item">📦 Đơn hàng của tôi</a>
+            <a href="cart.php" class="menu-item">📦 Đơn hàng của tôi</a>
+            <a href="admin.php" class="menu-item">🔧 chỉnh sửa đơn hàng</a>
         </div>
     </div>
 

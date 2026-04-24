@@ -4,6 +4,18 @@ require_once 'db.php';
 
 // 1. Lấy danh sách danh mục để hiển thị ở Sidebar
 $sql_categories = "SELECT * FROM categories";
+    // LẤY SẢN PHẨM CHO TỪNG CATEGORY (dùng cho mega menu)
+    $category_products = [];
+
+    $sql_all_products = "SELECT * FROM products ORDER BY id DESC";
+    $stmt_all = $conn->prepare($sql_all_products);
+    $stmt_all->execute();
+    $all_products = $stmt_all->fetchAll();
+
+    // Gom sản phẩm theo category_id
+    foreach($all_products as $prod){
+        $category_products[$prod['category_id']][] = $prod;
+    }
 $stmt_cat = $conn->prepare($sql_categories);
 $stmt_cat->execute();
 $categories = $stmt_cat->fetchAll();
@@ -78,6 +90,61 @@ $banner_url = ($random_banner) ? $random_banner['image'] : "img/pickle_meow_logo
     .price{color:#e53935;font-weight:700;margin-top:8px}
     button{margin-top:10px;padding:8px 15px;border:none;background:#1f6ed4;color:white;border-radius:8px;cursor:pointer;}
     footer{margin-top:40px;padding:20px;background:#1f6ed4;color:white;text-align:center;}
+    /* ===== MEGA MENU SẢN PHẨM ===== */
+
+    .sidebar{position:relative}
+
+    .sidebar li{position:relative;}
+
+    .mega-menu{
+        position:absolute;
+        top:0;
+        left:100%;
+        width:720px;
+        background:white;
+        border-radius:15px;
+        padding:20px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.15);
+        display:none;
+        z-index:999;
+    }
+
+    .sidebar li:hover .mega-menu{
+        display:block;
+    }
+
+    /* grid sản phẩm */
+    .mega-products{
+        display:grid;
+        grid-template-columns:repeat(3,1fr);
+        gap:15px;
+    }
+
+    .mega-item{
+        display:flex;
+        gap:10px;
+        align-items:center;
+        text-decoration:none;
+        color:#333;
+        padding:8px;
+        border-radius:10px;
+        transition:.2s;
+    }
+
+    .mega-item:hover{
+        background:#f5f7ff;
+    }
+
+    .mega-item img{
+        width:60px;
+        height:60px;
+        object-fit:contain;
+    }
+    .mega-price{
+        color:red;
+        font-weight:600;
+        font-size:14px;
+    }
 </style>
 </head>
 
@@ -109,22 +176,59 @@ $banner_url = ($random_banner) ? $random_banner['image'] : "img/pickle_meow_logo
 <div class="menu">
     <a href="#">Sản phẩm mới</a>
     <a href="#">Khuyến mãi</a>
-    <a href="#">Tin tức</a>
+    <a href="admin.php">chỉnh sửa sản phẩm</a>
 </div>
 
 <div class="container">
-    <div class="sidebar">
-        <h3>Danh mục</h3>
-        <ul>
-            <?php foreach($categories as $cat): ?>
-                <li>
-                    <a href="category.php?id=<?php echo $cat['id']; ?>">
-                        <?php echo $cat['name']; ?>
-                    </a>
-                </li>
-            <?php endforeach; ?>
-        </ul>
-    </div>
+<div class="sidebar">
+    <h3> <a href= "full_product.php">  Danh mục </a> </h3>
+    
+    <ul>
+
+    <?php foreach($categories as $cat): ?>
+        <li>
+            <a href="category.php?id=<?php echo $cat['id']; ?>">
+                <?php echo $cat['name']; ?>
+            </a>
+
+            <!-- MEGA MENU HIỆN SẢN PHẨM -->
+            <div class="mega-menu">
+
+                <?php if(isset($category_products[$cat['id']])): ?>
+                <div class="mega-products">
+
+                    <?php 
+                    $count = 0;
+                    foreach($category_products[$cat['id']] as $p):
+                        if($count == 6) break; // chỉ hiện 6 sp
+                    ?>
+                        <a class="mega-item" href="product.php?id=<?php echo $p['id']; ?>">
+                            <img src="<?php echo $p['image']; ?>">
+                            <div>
+                                <div><?php echo $p['name']; ?></div>
+                                <div class="mega-price">
+                                    <?php echo number_format($p['price'],0,',','.'); ?>đ
+                                </div>
+                            </div>
+                        </a>
+                    <?php 
+                        $count++;
+                    endforeach; 
+                    ?>
+
+                </div>
+                <?php else: ?>
+                    <p>Chưa có sản phẩm</p>
+                <?php endif; ?>
+
+            </div>
+            <!-- END MEGA -->
+
+        </li>
+    <?php endforeach; ?>
+
+    </ul>
+</div>
 
     <div class="main">
         <div class="hero">

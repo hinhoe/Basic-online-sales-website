@@ -4,7 +4,7 @@ require_once 'db.php';
 
 // KIỂM TRA QUYỀN ADMIN
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: login.php");
+    header("Location: ey.php");
     exit();
 }
 
