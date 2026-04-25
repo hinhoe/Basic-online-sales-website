@@ -1,62 +1,51 @@
-<<<<<<< HEAD
-=======
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Máy chủ: 127.0.0.1:3307
--- Thời gian đã tạo: Th4 23, 2026 lúc 06:43 PM
--- Phiên bản máy phục vụ: 10.4.32-MariaDB
--- Phiên bản PHP: 8.2.12
->>>>>>> aa335643e0a5e78663cf44941f3fe5848a93aad2
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
 
 
-CREATE TABLE `categories` (
-  `id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL
+CREATE TABLE categories (
+  id int(11) NOT NULL,
+  name varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-INSERT INTO `categories` (`id`, `name`) VALUES
+INSERT INTO categories (id, name) VALUES
 (1, 'Điện thoại'),
 (2, 'Máy tính'),
 (3, 'Âm thanh - Tai nghe'),
 (4, 'Phụ kiện'),
 (5, 'Đồ chơi');
 
-
-CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `total_price` int(11) NOT NULL,
-  `status` enum('pending','processing','shipped','completed','cancelled') DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+CREATE TABLE orders (
+  id int(11) NOT NULL,
+  user_id int(11) NOT NULL,
+  total_price int(11) NOT NULL,
+  status enum('pending','processing','shipped','completed','cancelled') DEFAULT 'pending',
+  created_at timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-
-CREATE TABLE `order_details` (
-  `order_id` int(11) NOT NULL,
-  `product_id` int(11) NOT NULL,
-  `quantity` int(11) NOT NULL,
-  `price` int(11) NOT NULL
+CREATE TABLE order_details (
+  order_id int(11) NOT NULL,
+  product_id int(11) NOT NULL,
+  quantity int(11) NOT NULL,
+  price int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-
-CREATE TABLE `products` (
-  `id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `description` text DEFAULT NULL,
-  `price` int(11) NOT NULL,
-  `stock` int(11) DEFAULT 0,
-  `image` varchar(255) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+CREATE TABLE products (
+  id int(11) NOT NULL,
+  category_id int(11) NOT NULL,
+  name varchar(255) NOT NULL,
+  description text DEFAULT NULL,
+  price int(11) NOT NULL,
+  stock int(11) DEFAULT 0,
+  image varchar(255) DEFAULT NULL,
+  created_at timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `stock`, `image`, `created_at`) VALUES
+INSERT INTO products (id, category_id, name, description, price, stock, image, created_at) VALUES
 (1, 1, 'iPhone 15 Pro', 'Điện thoại cao cấp từ Apple.', 22990000, 50, 'https://cdn2.fptshop.com.vn/unsafe/828x0/filters:format(webp):quality(75)/2023_9_13_638301983422003341_VN_iPhone_15_Pro_Natural_Titanium_PDP_Image_Position-1A_Natural_Titanium_Color.jpg', '2026-04-23 06:16:28'),
 (2, 1, 'Galaxy S24 Ultra', 'Flagship AI đỉnh cao của Samsung.', 18990000, 30, 'https://images.samsung.com/is/image/samsung/p6pim/vn/feature/164987682/vn-feature-smartphones-539782779?$FB_TYPE_A_MO_JPG$', '2026-04-23 06:16:28'),
 (3, 2, 'Macbook Air M5', 'Laptop siêu mỏng nhẹ, pin trâu.', 27990000, 20, 'https://www.apple.com/v/macbook-air/y/images/overview/hero/hero_static__c9sislzzicq6_large.png', '2026-04-23 06:16:28'),
@@ -68,7 +57,6 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (10, 1, 'meomeo', 'con mèo', 67676767, 0, 'img/products/prod_1776953883_940.png', '2026-04-23 14:18:03'),
 (11, 2, 'susi', 'mèo quá béo', 1102024, 0, 'img/products/prod_1776953930_983.png', '2026-04-23 14:18:50'),
 (12, 1, 'smiling lu', '', 68371838, 0, 'img/products/prod_1776954105_196.png', '2026-04-23 14:21:45'),
-<<<<<<< HEAD
 (13, 1, ' evil lulu', 'gâgagagaga', 2147483647, 0, 'img/products/prod_1776954156_786.png', '2026-04-23 14:22:36'),
 (16, 1, 'tài5vr fgtnhyu8ci9==', 'jdjđạkfdkad', 1534567, 0, 'img/products/default.png', '2026-04-24 11:08:57'),
 (17, 3, 'đạt', 'pro vãi cứt', 400000000, 0, 'img/products/prod_1777033299_139.jpg', '2026-04-24 12:21:39'),
@@ -81,91 +69,69 @@ INSERT INTO `products` (`id`, `category_id`, `name`, `description`, `price`, `st
 (24, 1, 'Điện thoại iPhone 16 256GB', 'CẤU HÌNH & BỘ NHỚ\r\nHệ điều hành: iOS 18\r\nChip xử lý (CPU): Apple A18 6 nhân\r\nTốc độ CPU: Hãng không công bố\r\nChip đồ họa (GPU): Apple GPU 5 nhân\r\nRAM: 8 GB\r\nDung lượng lưu trữ: 128 | 256 GB | 512GB\r\nDung lượng còn lại (khả dụng) khoảng: 241 GB\r\nDanh bạ: Không giới hạn', 22490000, 0, 'https://cdn.tgdd.vn/Products/Images/42/329136/iphone-16-green-600x600.png', '2026-04-24 15:41:49'),
 (25, 1, 'test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ', 'test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test ', 2147483647, 0, 'img/products/default.png', '2026-04-24 15:42:53'),
 (26, 1, 'text0 text1 text2 text3 text4 text5 text6 text7 text8 text9 text10 text11 text12 text13 text14 text15 text16 text17 text18 text19 text20 text21 text22 text23 text24 text25 text26 text27 text28 text29 text30 text31 text32 text33 text34 text35 text36 text37', 'text0 text1 text2 text3 text4 text5 text6 text7 text8 text9 text10 text11 text12 text13 text14 text15 text16 text17 text18 text19 text20 text21 text22 text23 text24 text25 text26 text27 text28 text29 text30 text31 text32 text33 text34 text35 text36 text37 text38 text39 text40 text41 text42 text43 text44 text45 text46 text47 text48 text49 text50 text51 text52 text53 text54 text55 text56 text57 text58 text59 text60 text61 text62 text63 text64 text65 text66 text67 text68 text69 text70 text71 text72 text73 text74 text75 text76 text77 text78 text79 text80 text81 text82 text83 text84 text85 text86 text87 text88 text89 text90 text91 text92 text93 text94 text95 text96 text97 text98 text99 text100 text101 text102 text103 text104 text105 text106 text107 text108 text109 text110 text111 text112 text113 text114 text115 text116 text117 text118 text119 text120 text121 text122 text123 text124 text125 text126 text127 text128 text129 text130 text131 text132 text133 text134 text135 text136 text137 text138 text139 text140 text141 text142 text143 text144 text145 text146 text147 text148 text149 text150 text151 text152 text153 text154 text155 text156 text157 text158 text159 text160 text161 text162 text163 text164 text165 text166 text167 text168 text169 text170 text171 text172 text173 text174 text175 text176 text177 text178 text179 text180 text181 text182 text183 text184 text185 text186 text187 text188 text189 text190 text191 text192 text193 text194 text195 text196 text197 text198 text199 text200 text201 text202 text203 text204 text205 text206 text207 text208 text209 text210 text211 text212 text213 text214 text215 text216 text217 text218 text219 text220 text221 text222 text223 text224 text225 text226 text227 text228 text229 text230 text231 text232 text233 text234 text235 text236 text237 text238 text239 text240 text241 text242 text243 text244 text245 text246 text247 text248 text249 text250 text251 text252 text253 text254 text255 text256 text257 text258 text259 text260 text261 text262 text263 text264 text265 text266 text267 text268 text269 text270 text271 text272 text273 text274 text275 text276 text277 text278 text279 text280 text281 text282 text283 text284 text285 text286 text287 text288 text289 text290 text291 text292 text293 text294 text295 text296 text297 text298 text299 text300 text301 text302 text303 text304 text305 text306 text307 text308 text309 text310 text311 text312 text313 text314 text315 text316 text317 text318 text319 text320 text321 text322 text323 text324 text325 text326 text327 text328 text329 text330 text331 text332 text333 text334 text335 text336 text337 text338 text339 text340 text341 text342 text343 text344 text345 text346 text347 text348 text349 text350 text351 text352 text353 text354 text355 text356 text357 text358 text359 text360 text361 text362 text363 text364 text365 text366 text367 text368 text369 text370 text371 text372 text373 text374 text375 text376 text377 text378 text379 text380 text381 text382 text383 text384 text385 text386 text387 text388 text389 text390 text391 text392 text393 text394 text395 text396 text397 text398 text399 text400 text401 text402 text403 text404 text405 text406 text407 text408 text409 text410 text411 text412 text413 text414 text415 text416 text417 text418 text419 text420 text421 text422 text423 text424 text425 text426 text427 text428 text429 text430 text431 text432 text433 text434 text435 text436 text437 text438 text439 text440 text441 text442 text443 text444 text445 text446 text447 text448 text449 text450 text451 text452 text453 text454 text455 text456 text457 text458 text459 text460 text461 text462 text463 text464 text465 text466 text467 text468 text469 text470 text471 text472 text473 text474 text475 text476 text477 text478 text479 text480 text481 text482 text483 text484 text485 text486 text487 text488 text489 text490 text491 text492 text493 text494 text495 text496 text497 text498 text499 text500 text501 text502 text503 text504 text505 text506 text507 text508 text509 text510 text511 text512 text513 text514 text515 text516 text517 text518 text519 text520 text521 text522 text523 text524 text525 text526 text527 text528 text529 text530 text531 text532 text533 text534 text535 text536 text537 text538 text539 text540 text541 text542 text543 text544 text545 text546 text547 text548 text549 text550 text551 text552 text553 text554 text555 text556 text557 text558 text559 text560 text561 text562 text563 text564 text565 text566 text567 text568 text569 text570 text571 text572 text573 text574 text575 text576 text577 text578 text579 text580 text581 text582 text583 text584 text585 text586 text587 text588 text589 text590 text591 text592 text593 text594 text595 text596 text597 text598 text599 text600 text601 text602 text603 text604 text605 text606 text607 text608 text609 text610 text611 text612 text613 text614 text615 text616 text617 text618 text619 text620 text621 text622 text623 text624 text625 text626 text627 text628 text629 text630 text631 text632 text633 text634 text635 text636 text637 text638 text639 text640 text641 text642 text643 text644 text645 text646 text647 text648 text649 text650 text651 text652 text653 text654 text655 text656 text657 text658 text659 text660 text661 text662 text663 text664 text665 text666 text667 text668 text669 text670 text671 text672 text673 text674 text675 text676 text677 text678 text679 text680 text681 text682 text683 text684 text685 text686 text687 text688 text689 text690 text691 text692 text693 text694 text695 text696 text697 text698 text699 text700 text701 text702 text703 text704 text705 text706 text707 text708 text709 text710 text711 text712 text713 text714 text715 text716 text717 text718 text719 text720 text721 text722 text723 text724 text725 text726 text727 text728 text729 text730 text731 text732 text733 text734 text735 text736 text737 text738 text739 text740 text741 text742 text743 text744 text745 text746 text747 text748 text749 text750 text751 text752 text753 text754 text755 text756 text757 text758 text759 text760 text761 text762 text763 text764 text765 text766 text767 text768 text769 text770 text771 text772 text773 text774 text775 text776 text777 text778 text779 text780 text781 text782 text783 text784 text785 text786 text787 text788 text789 text790 text791 text792 text793 text794 text795 text796 text797 text798 text799 text800 text801 text802 text803 text804 text805 text806 text807 text808 text809 text810 text811 text812 text813 text814 text815 text816 text817 text818 text819 text820 text821 text822 text823 text824 text825 text826 text827 text828 text829 text830 text831 text832 text833 text834 text835 text836 text837 text838 text839 text840 text841 text842 text843 text844 text845 text846 text847 text848 text849 text850 text851 text852 text853 text854 text855 text856 text857 text858 text859 text860 text861 text862 text863 text864 text865 text866 text867 text868 text869 text870 text871 text872 text873 text874 text875 text876 text877 text878 text879 text880 text881 text882 text883 text884 text885 text886 text887 text888 text889 text890 text891 text892 text893 text894 text895 text896 text897 text898 text899 text900 text901 text902 text903 text904 text905 text906 text907 text908 text909 text910 text911 text912 text913 text914 text915 text916 text917 text918 text919 text920 text921 text922 text923 text924 text925 text926 text927 text928 text929 text930 text931 text932 text933 text934 text935 text936 text937 text938 text939 text940 text941 text942 text943 text944 text945 text946 text947 text948 text949 text950 text951 text952 text953 text954 text955 text956 text957 text958 text959 text960 text961 text962 text963 text964 text965 text966 text967 text968 text969 text970 text971 text972 text973 text974 text975 text976 text977 text978 text979 text980 text981 text982 text983 text984 text985 text986 text987 text988 text989 text990 text991 text992 text993 text994 text995 text996 text997 text998 text999 text1000 ', -2147483648, 0, 'img/products/default.png', '2026-04-24 15:46:07');
-=======
-(13, 1, ' evil lulu', 'gâgagagaga', 2147483647, 0, 'img/products/prod_1776954156_786.png', '2026-04-23 14:22:36');
->>>>>>> aa335643e0a5e78663cf44941f3fe5848a93aad2
 
-
-
-CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
-  `fullname` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(15) DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('user','admin') DEFAULT 'user',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `avatar` varchar(255) DEFAULT 'default.png'
+CREATE TABLE users (
+  id int(11) NOT NULL,
+  fullname varchar(100) NOT NULL,
+  email varchar(100) NOT NULL,
+  phone varchar(15) DEFAULT NULL,
+  address text DEFAULT NULL,
+  password varchar(255) NOT NULL,
+  role enum('user','admin') DEFAULT 'user',
+  created_at timestamp NOT NULL DEFAULT current_timestamp(),
+  avatar varchar(255) DEFAULT 'default.png'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-
-INSERT INTO `users` (`id`, `fullname`, `email`, `phone`, `address`, `password`, `role`, `created_at`, `avatar`) VALUES
-<<<<<<< HEAD
+INSERT INTO users (id, fullname, email, phone, address, password, role, created_at, avatar) VALUES
 (7, 'admin', 'admin@gmail.com', 'không có', 'vô gia cư', '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'admin', '2026-04-23 05:31:15', 'pickle_meow_logo.png'),
 (8, 'user', 'user@gmail.com', '0776545527', 'ádsaccc', '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'user', '2026-04-23 05:31:15', 'user_8_1776927908.png'),
 (9, 'con chó', 'nian@gmail.com', NULL, NULL, '$2y$10$TvzdAVG7vcFRi0SMwkx/qOgKseZpp4fIXC6dI.a/g3wJI9sHJOg6e', 'user', '2026-04-23 16:05:36', 'default.png'),
 (10, 'đạt chó', 'vlxx@concac', NULL, NULL, '$2y$10$FpNASvinnDdaE/HSBer7tOf.wSlPNug7KyCdovO2jObrFBdmO7SI6', 'user', '2026-04-24 12:25:08', 'default.png');
-=======
-(7, 'Quản trị viên', 'admin@gmail.com', NULL, NULL, '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'admin', '2026-04-23 05:31:15', 'pickle_meow_logo.png'),
-(8, 'anh seng', 'user@gmail.com', '0776545527', 'ádsaccc', '$2y$10$x6dTjI/uJj5P23HljypXEuZVhe3tfRLErakKkzThGWAGagwTQnOZ.', 'user', '2026-04-23 05:31:15', 'user_8_1776927908.png'),
-(9, 'con chó', 'nian@gmail.com', NULL, NULL, '$2y$10$TvzdAVG7vcFRi0SMwkx/qOgKseZpp4fIXC6dI.a/g3wJI9sHJOg6e', 'user', '2026-04-23 16:05:36', 'default.png');
->>>>>>> aa335643e0a5e78663cf44941f3fe5848a93aad2
 
 
-ALTER TABLE `categories`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE categories
+  ADD PRIMARY KEY (id);
+
+ALTER TABLE orders
+  ADD PRIMARY KEY (id),
+  ADD KEY user_id (user_id);
+
+ALTER TABLE order_details
+  ADD PRIMARY KEY (order_id,product_id),
+  ADD KEY product_id (product_id);
+
+ALTER TABLE products
+  ADD PRIMARY KEY (id),
+  ADD KEY category_id (category_id);
+
+ALTER TABLE users
+  ADD PRIMARY KEY (id),
+  ADD UNIQUE KEY email (email);
 
 
-ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`);
+ALTER TABLE categories
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE orders
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE products
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE users
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 
-ALTER TABLE `order_details`
-  ADD PRIMARY KEY (`order_id`,`product_id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE orders
+  ADD CONSTRAINT orders_ibfk_1 FOREIGN KEY (user_id) REFERENCES `users` (id) ON DELETE CASCADE;
 
-ALTER TABLE `products`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `category_id` (`category_id`);
+ALTER TABLE order_details
+  ADD CONSTRAINT order_details_ibfk_1 FOREIGN KEY (order_id) REFERENCES `orders` (id) ON DELETE CASCADE,
+  ADD CONSTRAINT order_details_ibfk_2 FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE;
 
+ALTER TABLE products
+  ADD CONSTRAINT products_ibfk_1 FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE;
 
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `email` (`email`);
-
-ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
-
-ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
-
-ALTER TABLE `products`
-<<<<<<< HEAD
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
-
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
->>>>>>> aa335643e0a5e78663cf44941f3fe5848a93aad2
-
-ALTER TABLE `users`
-<<<<<<< HEAD
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
-=======
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
->>>>>>> aa335643e0a5e78663cf44941f3fe5848a93aad2
-
-ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
-
-ALTER TABLE `order_details`
-  ADD CONSTRAINT `order_details_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `order_details_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE;
-
-
-ALTER TABLE `products`
-  ADD CONSTRAINT `products_ibfk_1` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON DELETE CASCADE;
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
