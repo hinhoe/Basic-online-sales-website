@@ -91,11 +91,13 @@ $categories = $conn->query("SELECT * FROM categories")->fetchAll();
     <meta charset="UTF-8">
     <title>Quản trị PickleMeow Shop</title>
     <style>
+
         body { font-family: 'Segoe UI', Arial; background: #f0f2f5; margin: 0; display: flex; }
-        .sidebar { width: 240px; background: #1f6ed4; color: white; height: 100vh; padding: 20px; position: fixed; }
-        .sidebar a { color: #bdc3c7; text-decoration: none; display: block; padding: 10px; border-radius: 5px; margin-bottom: 5px; }
+        .sidebar { width: 240px; background: #d1d6dc; color: white;  height: 100vh; padding: 20px; position: fixed; }
+        .sidebar a { color: #01080d; text-decoration: none; display: block; padding: 10px; border-radius: 5px; margin-bottom: 5px; }
         .sidebar a:hover, .sidebar a.active { background: #34495e; color: white; }
         .main { flex: 1; margin-left: 240px; padding: 40px; }
+        .logot{ background-color: #b198e1; border-radius: 10px;}
         
         table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; vertical-align: middle; }
@@ -124,123 +126,128 @@ $categories = $conn->query("SELECT * FROM categories")->fetchAll();
     </style>
 </head>
 <body>
-
-<div class="sidebar">
-    <a href="index.php" class="logo">
-        <img src="img/pickle_meow_logo.png">
-</br>PickleMeow Shop
-    </a>
-    <nav>
-        <a href="index.php" style="color: #000000 ">🏠 Trở về Shop</a>
-        <a href="admin.php" class="active">🛍️ Quản lý Sản phẩm</a>
-        <a href="logout.php" style="color: #000000; margin-top: 50px;">🚪 Đăng xuất</a>
-    </nav>
-</div>
-
-<div class="main">
-    <h1>Danh sách sản phẩm</h1>
-    
-    <button class="btn btn-add" onclick="openModal('addModal')">+ Thêm sản phẩm mới</button>
-
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Ảnh</th>
-                <th>Tên</th>
-                <th>Giá</th>
-                <th>Danh mục</th>
-                <th>Thao tác</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach($products as $p): ?>
-            <tr>
-                <td>#<?php echo $p['id']; ?></td>
-                <td>
-                    <img src="<?php echo $p['image']; ?>" width="60" height="60" style="border-radius:5px; object-fit: contain; background: white;">
-                </td>
-                <td><strong><?php echo $p['name']; ?></strong></td>
-                <td style="color: #e74c3c; font-weight: bold;"><?php echo number_format($p['price'], 0, ',', '.'); ?>đ</td>
-                <td><?php echo $p['cat_name']; ?></td>
-                <td>
-                    <button class="btn btn-edit" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($p)); ?>)">Sửa</button>
-                    <a href="?delete_id=<?php echo $p['id']; ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-</div>
-
-<div id="addModal" class="modal">
-    <div class="modal-content">
-        <h2>Thêm sản phẩm mới</h2>
-        <form method="POST" enctype="multipart/form-data">
-            <label>Tên sản phẩm:</label>
-            <input type="text" name="name" required>
-            
-            <label>Giá tiền:</label>
-            <input type="number" name="price" required>
-            
-            <label>Danh mục:</label>
-            <select name="category_id">
-                <?php foreach($categories as $c): ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['name']; ?></option>
-                <?php endforeach; ?>
-            </select>
-            
-            <label>Ảnh sản phẩm:</label>
-            <div class="image-choice">
-                <input type="file" name="image" accept="image/*">
-                <div class="divider">--- HOẶC ---</div>
-                <input type="text" name="image_url" placeholder="Dán link ảnh (URL) vào đây...">
-            </div>
-            
-            <label>Mô tả:</label>
-            <textarea name="description" rows="3"></textarea>
-            
-            <button type="submit" name="add_product" class="btn btn-add" style="width: 100%;">Lưu sản phẩm</button>
-            <button type="button" onclick="closeModal('addModal')" style="width: 100%; background: #95a5a6;" class="btn">Hủy</button>
-        </form>
+<div class="sum">
+    <div class="sidebar">
+        <div class="logot">
+            <a href="index.php" class="logo">
+                <img src="img/pickle_meow_logo.png">
+                </br>PickleMeow Shop
+            </a>    
+        </div>
+        
+        <nav>
+            <a href="index.php" style="color: #000000 ">🏠 Trở về Shop</a>
+            <a href="admin.php" class="active">🛍️ Quản lý Sản phẩm</a>
+            <a href="logout.php" style="color: #000000; margin-top: 50px;">🚪 Đăng xuất</a>
+        </nav>
     </div>
+
+    <div class="main">
+        <h1>Danh sách sản phẩm</h1>
+        
+        <button class="btn btn-add" onclick="openModal('addModal')">+ Thêm sản phẩm mới</button>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ảnh</th>
+                    <th>Tên</th>
+                    <th>Giá</th>
+                    <th>Danh mục</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach($products as $p): ?>
+                <tr>
+                    <td>#<?php echo $p['id']; ?></td>
+                    <td>
+                        <img src="<?php echo $p['image']; ?>" width="60" height="60" style="border-radius:5px; object-fit: contain; background: white;">
+                    </td>
+                    <td><strong><?php echo $p['name']; ?></strong></td>
+                    <td style="color: #e74c3c; font-weight: bold;"><?php echo number_format($p['price'], 0, ',', '.'); ?>đ</td>
+                    <td><?php echo $p['cat_name']; ?></td>
+                    <td>
+                        <button class="btn btn-edit" onclick="openEditModal(<?php echo htmlspecialchars(json_encode($p)); ?>)">Sửa</button>
+                        <a href="?delete_id=<?php echo $p['id']; ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa?')">Xóa</a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="addModal" class="modal">
+        <div class="modal-content">
+            <h2>Thêm sản phẩm mới</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <label>Tên sản phẩm:</label>
+                <input type="text" name="name" required>
+                
+                <label>Giá tiền:</label>
+                <input type="number" name="price" required>
+                
+                <label>Danh mục:</label>
+                <select name="category_id">
+                    <?php foreach($categories as $c): ?>
+                        <option value="<?php echo $c['id']; ?>"><?php echo $c['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <label>Ảnh sản phẩm:</label>
+                <div class="image-choice">
+                    <input type="file" name="image" accept="image/*">
+                    <div class="divider">--- HOẶC ---</div>
+                    <input type="text" name="image_url" placeholder="Dán link ảnh (URL) vào đây...">
+                </div>
+                
+                <label>Mô tả:</label>
+                <textarea name="description" rows="3"></textarea>
+                
+                <button type="submit" name="add_product" class="btn btn-add" style="width: 100%;">Lưu sản phẩm</button>
+                <button type="button" onclick="closeModal('addModal')" style="width: 100%; background: #95a5a6;" class="btn">Hủy</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Chỉnh sửa sản phẩm</h2>
+            <form method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="id" id="edit_id">
+                <input type="hidden" name="old_image" id="edit_old_img">
+                
+                <label>Tên sản phẩm:</label>
+                <input type="text" name="name" id="edit_name" required>
+                
+                <label>Giá tiền:</label>
+                <input type="number" name="price" id="edit_price" required>
+                
+                <label>Danh mục:</label>
+                <select name="category_id" id="edit_cat">
+                    <?php foreach($categories as $c): ?>
+                        <option value="<?php echo $c['id']; ?>"><?php echo $c['name']; ?></option>
+                    <?php endforeach; ?>
+                </select>
+                
+                <label>Thay đổi ảnh (Bỏ trống để giữ nguyên ảnh cũ):</label>
+                <div class="image-choice">
+                    <input type="file" name="image" accept="image/*">
+                    <div class="divider">--- HOẶC ---</div>
+                    <input type="text" name="image_url" placeholder="Dán link ảnh (URL) MỚI vào đây...">
+                </div>
+                
+                <label>Mô tả:</label>
+                <textarea name="description" id="edit_desc" rows="3"></textarea>
+                
+                <button type="submit" name="edit_product" class="btn btn-add" style="width: 100%; background: #2980b9;">Cập nhật thay đổi</button>
+                <button type="button" onclick="closeModal('editModal')" style="width: 100%; background: #95a5a6;" class="btn">Đóng</button>
+            </form>
+        </div>
+    </div>   
 </div>
 
-<div id="editModal" class="modal">
-    <div class="modal-content">
-        <h2>Chỉnh sửa sản phẩm</h2>
-        <form method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="id" id="edit_id">
-            <input type="hidden" name="old_image" id="edit_old_img">
-            
-            <label>Tên sản phẩm:</label>
-            <input type="text" name="name" id="edit_name" required>
-            
-            <label>Giá tiền:</label>
-            <input type="number" name="price" id="edit_price" required>
-            
-            <label>Danh mục:</label>
-            <select name="category_id" id="edit_cat">
-                <?php foreach($categories as $c): ?>
-                    <option value="<?php echo $c['id']; ?>"><?php echo $c['name']; ?></option>
-                <?php endforeach; ?>
-            </select>
-            
-            <label>Thay đổi ảnh (Bỏ trống để giữ nguyên ảnh cũ):</label>
-            <div class="image-choice">
-                <input type="file" name="image" accept="image/*">
-                <div class="divider">--- HOẶC ---</div>
-                <input type="text" name="image_url" placeholder="Dán link ảnh (URL) MỚI vào đây...">
-            </div>
-            
-            <label>Mô tả:</label>
-            <textarea name="description" id="edit_desc" rows="3"></textarea>
-            
-            <button type="submit" name="edit_product" class="btn btn-add" style="width: 100%; background: #2980b9;">Cập nhật thay đổi</button>
-            <button type="button" onclick="closeModal('editModal')" style="width: 100%; background: #95a5a6;" class="btn">Đóng</button>
-        </form>
-    </div>
-</div>
 
 <script>
     function openModal(id) {
