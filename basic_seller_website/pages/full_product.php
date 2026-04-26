@@ -50,10 +50,12 @@ button:hover {background: #1557a6;}
         <?php if(count($products) > 0): ?>
             <?php foreach($products as $p): ?>
                 <div class="card">
-                    <img src="<?php echo $p['image']; ?>" alt="<?php echo $p['name']; ?>">
+                    <img src="<?php echo (strpos($p['image'], 'http') === 0) 
+                        ? $p['image'] 
+                        : '/basic_seller_web/' . $p['image']; ?>">
                     <h4><?php echo $p['name']; ?></h4>
                     <div class="price"><?php echo number_format($p['price'], 0, ',', '.'); ?>đ</div>
-                    <button onclick="location.href='product.php?id=<?php echo $p['id']; ?>'">
+                    <button onclick="location.href='/basic_seller_web/pages/product.php?id=<?php echo $p['id']; ?>'">
                         Xem chi tiết
                     </button>
                 </div>
@@ -62,7 +64,7 @@ button:hover {background: #1557a6;}
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 10px;">
                 <h3 style="color: #666;">Chưa có sản phẩm nào.</h3>
                 <br>
-                <a href="index.php" style="color: #1f6ed4; text-decoration: none;">← Quay lại trang chủ</a>
+                <a href="/basic_seller_web/index.php" style="color: #1f6ed4; text-decoration: none;">← Quay lại trang chủ</a>
             </div>
         <?php endif; ?>
     </div>
