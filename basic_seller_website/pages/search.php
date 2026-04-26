@@ -1,6 +1,7 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once __DIR__. '/../config/db.php';
+require_once __DIR__. '/../includes/header.php'; 
 
 $keyword = "";
 $products = [];
@@ -31,16 +32,6 @@ if (isset($_GET['q'])) {
     /* CSS giữ nguyên từ giao diện chuẩn của bạn */
     *{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
     body{background:#f3f5f7}
-    .topbar{background:#2f6fd6;padding:12px 30px;display:flex;align-items:center;justify-content:space-between;}
-    .logo {color: white;text-decoration: none;display: flex;align-items: center;gap: 10px;font-size: 24px;font-weight: bold;}
-    .logo img {height: 60px;width: 60px;object-fit: cover;border-radius: 50%;}
-    
-    .search-box{flex:1;margin:0 40px;}
-    .search-box input{width:100%;padding:10px 15px;border:none;border-radius:20px;outline:none;}
-    
-    .header-links{display:flex;gap:20px;}
-    .header-links a{color:white;text-decoration:none;font-weight:500;}
-    .header-links a:hover{opacity:0.8;}
 
     .container{padding:30px; max-width: 1200px; margin: 0 auto;}
     .page-title {margin-bottom: 20px; font-size: 24px; color: #333; border-bottom: 2px solid #2f6fd6; padding-bottom: 10px; display: inline-block;}
@@ -66,30 +57,6 @@ if (isset($_GET['q'])) {
 </style>
 </head>
 
-<body>
-<div class="topbar">
-    <a href="index.php" class="logo">
-        <img src="img/pickle_meow_logo.png" alt="Logo">
-        PickleMeow Shop
-    </a>
-
-    <div class="search-box">
-        <form action="search.php" method="GET">
-            <input type="text" name="q" placeholder="Tìm kiếm sản phẩm... (Nhấn Enter)" value="<?php echo htmlspecialchars($keyword); ?>" required>
-        </form>
-    </div>
-
-    <div class="header-links">
-        <?php if(isset($_SESSION['user_id'])): ?>
-            <a href="user.php">👤 <?php echo $_SESSION['fullname']; ?></a>
-            <a href="logout.php">Đăng xuất</a>
-        <?php else: ?>
-            <a href="login.php">Đăng nhập</a>
-        <?php endif; ?>
-        <a href="cart.php">Giỏ hàng</a>
-    </div>
-</div>
-
 <div class="container">
     <h2 class="page-title">Kết quả tìm kiếm cho: <span class="keyword-highlight">"<?php echo htmlspecialchars($keyword); ?>"</span></h2>
 
@@ -108,7 +75,7 @@ if (isset($_GET['q'])) {
                 <h3>Rất tiếc, không tìm thấy sản phẩm nào phù hợp với từ khóa này.</h3>
                 <p>Vui lòng thử lại bằng các từ khóa khác ngắn gọn hoặc chung chung hơn (Ví dụ: "Điện thoại", "Tai nghe").</p>
                 <br>
-                <a href="index.php" style="color: #2f6fd6; text-decoration: none; font-weight: bold;">&larr; Quay lại trang chủ</a>
+                <a href="/basic_seller_web/index.php" style="color: #2f6fd6; text-decoration: none; font-weight: bold;">&larr; Quay lại trang chủ</a>
             </div>
         <?php endif; ?>
     </div>

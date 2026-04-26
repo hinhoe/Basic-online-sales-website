@@ -1,10 +1,11 @@
 <?php
 session_start();
-require_once 'db.php';
+require_once __DIR__.'/../config/db.php';
+require_once __DIR__.'/../includes/header.php'; 
 
 // Nếu đã đăng nhập thì đẩy về trang chủ, không cho vào trang đăng ký nữa
 if (isset($_SESSION['user_id'])) {
-    header("Location: index.php");
+    header("Location: /basic_seller_web/index.php");
     exit();
 }
 
@@ -67,12 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <style>
     body { font-family: 'Inter', sans-serif; background: #f3f5f7; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
     
-    .logo {color: white;text-decoration: none;display: flex;align-items: center;gap: 10px;font-size: 24px;font-weight: bold;}
-    .logo img {height: 60px;width: 60px;object-fit: cover;border-radius: 50%;}
-    .search-box{flex:1;margin:0 40px;}
-    .search-box input{width:100%;padding:10px 15px;border:none;border-radius:20px;outline:none;}
-    .header-links{display:flex;gap:20px;}
-    .header-links a{color:white;text-decoration:none;font-weight:500;}
 
     .auth-container { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; }
     .logo-container { text-align: center; margin-bottom: 20px; }
@@ -99,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="auth-container">
     <div class="logo-container">
-        <img src="img/pickle_meow_logo.png" alt="PickleMeow Logo">
+        <img src="/basic_seller_web/img/pickle_meow_logo.png" alt="PickleMeow Logo">
     </div>
     <h2>Tạo tài khoản mới</h2>
 
@@ -111,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="msg success"><?php echo $success_msg; ?></div>
     <?php endif; ?>
 
-    <form action="register.php" method="POST">
+    <form action="/basic_seller_web/auth/register.php" method="POST">
         <div class="input-group">
             <label>Họ và Tên</label>
             <input type="text" name="fullname" placeholder="Nhập họ và tên..." required>
@@ -136,8 +131,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <div class="auth-links">
-        Đã có tài khoản? <a href="login.php">Đăng nhập tại đây</a><br><br>
-        <a href="index.php" style="color: #888;">&larr; Quay lại Trang chủ</a>
+        Đã có tài khoản? <a href="/basic_seller_web/auth/login.php">Đăng nhập tại đây</a><br><br>
+        <a href="/basic_seller_web/index.php" style="color: #888;">&larr; Quay lại Trang chủ</a>
     </div>
 </div>
 
