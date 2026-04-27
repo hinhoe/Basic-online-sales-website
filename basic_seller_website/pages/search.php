@@ -29,33 +29,39 @@ if (isset($_GET['q'])) {
 <title>Kết quả tìm kiếm cho "<?php echo htmlspecialchars($keyword); ?>" - PickleMeow Shop</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-    /* CSS giữ nguyên từ giao diện chuẩn của bạn */
+    /* CSS CƠ BẢN */
     *{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
     body{background:#f3f5f7}
 
     .container{padding:30px; max-width: 1200px; margin: 0 auto;}
     .page-title {margin-bottom: 20px; font-size: 24px; color: #333; border-bottom: 2px solid #2f6fd6; padding-bottom: 10px; display: inline-block;}
+    .keyword-highlight { color: #e53935; }
     
+    /* ===== LƯỚI SẢN PHẨM VÀ CARD DÙNG CHUNG ===== */
     .products{display:grid;grid-template-columns:repeat(5,1fr);gap:20px}
-    .card{background:white;padding:15px;border-radius:12px;text-align:center; transition: 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
+    .card{background:white;border-radius:15px;padding:15px;text-align:center;transition:.2s; position: relative; box-shadow: 0 4px 6px rgba(0,0,0,0.05);}
     .card:hover{transform:translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1);}
-.card img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain; /* Thu nhỏ ảnh sản phẩm cho vừa vặn */
-    border-radius: 10px;
-    background-color: #ffffff; 
-}
-    .card h4 {font-size: 16px; margin-bottom: 5px; color: #333; height: 38px; overflow: hidden;}
-    .price{color:red;font-weight:700; font-size: 18px;}
-    button{margin-top:10px;padding:8px 12px;border:none;background:#1f6ed4;color:white;border-radius:8px; cursor: pointer; width: 100%;}
-    button:hover {background: #1557a6;}
+    .card img {width: 100%; height: 180px; object-fit: contain; border-radius: 10px; background-color: #ffffff;}
+    .card h4 {font-size: 16px; margin: 10px 0 5px; color: #333; height: 38px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;}
+
+    /* CSS Giá & Khuyến mãi */
+    .price-container {height: 45px; display: flex; flex-direction: column; justify-content: center; margin-bottom: 5px;}
+    .old-price {color:#95a5a6; font-size: 13px; text-decoration: line-through;}
+    .new-price {color:#e74c3c; font-weight:700; font-size: 18px;}
+    .badge-discount {
+        position: absolute; top: 10px; right: 10px; background-color: #e74c3c; color: white;
+        font-size: 13px; font-weight: bold; padding: 4px 8px; border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(231, 76, 60, 0.5); z-index: 2;
+    }
+
+    button{margin-top:10px;padding:8px 15px;border:none;background:#1f6ed4;color:white;border-radius:8px;cursor:pointer; width: 100%;}
+    button:hover{background: #1557a6;}
     
     .no-results { grid-column: 1 / -1; text-align: center; padding: 50px; background: white; border-radius: 12px; }
     .no-results h3 { color: #555; margin-bottom: 15px; }
-    .keyword-highlight { color: #e53935; }
 </style>
 </head>
+<body>
 
 <div class="container">
     <h2 class="page-title">Kết quả tìm kiếm cho: <span class="keyword-highlight">"<?php echo htmlspecialchars($keyword); ?>"</span></h2>
@@ -63,12 +69,9 @@ if (isset($_GET['q'])) {
     <div class="products">
         <?php if(count($products) > 0): ?>
             <?php foreach($products as $p): ?>
-                <div class="card">
-                    <img src="<?php echo $p['image']; ?>" alt="<?php echo $p['name']; ?>">
-                    <h4><?php echo $p['name']; ?></h4>
-                    <div class="price"><?php echo number_format($p['price'], 0, ',', '.'); ?>đ</div>
-                    <button onclick="location.href='product.php?id=<?php echo $p['id']; ?>'">Xem chi tiết</button>
-                </div>
+            
+                <?php include __DIR__ . '/../includes/product_card.php'; ?>
+                
             <?php endforeach; ?>
         <?php else: ?>
             <div class="no-results">
@@ -80,6 +83,13 @@ if (isset($_GET['q'])) {
         <?php endif; ?>
     </div>
 </div>
+
+<?php 
+// Tiện thể gọi luôn footer để trang hoàn thiện
+if (file_exists(__DIR__ . '/../includes/footer.php')) {
+    require_once __DIR__ . '/../includes/footer.php'; 
+}
+?>
 
 </body>
 </html>

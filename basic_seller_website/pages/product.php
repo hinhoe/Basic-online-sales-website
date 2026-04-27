@@ -53,11 +53,13 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 <body>
 
-
 <div class="container">
     <div class="product-flex">
         <div class="product-img">
-            <img src="<?php echo $product['image']; ?>" alt="<?php echo $product['name']; ?>">
+            <img src="<?php echo (strpos($product['image'], 'http') === 0) 
+    ? $product['image'] 
+    : '/basic_seller_web/' . $product['image']; ?>" 
+     alt="<?php echo $product['name']; ?>">
         </div>
 
         <div class="product-info">
@@ -68,12 +70,12 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             
             <div class="price"><?php echo number_format($product['price'], 0, ',', '.'); ?>đ</div>
 
-            <div style="margin:20px 0;">
-                <label>Số lượng: </label>
-                <input type="number" value="1" min="1" style="padding:8px; width:60px; border-radius:5px; border:1px solid #ddd;">
-            </div>
-
             <form action="/basic_seller_web/auth/add_to_cart.php" method="POST">
+                <div style="margin:20px 0;">
+                    <label>Số lượng: </label>
+                    <input type="number" name="quantity" value="1" min="1" style="padding:8px; width:60px; border-radius:5px; border:1px solid #ddd;">
+                </div>
+
                 <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                 <button type="submit" class="add-cart">🛒 THÊM VÀO GIỎ HÀNG</button>
             </form>

@@ -99,28 +99,28 @@
 
         <div class="footer-col">
             <h4>Về công ty</h4>
-            <a href="#">Giới thiệu công ty (PickleMeow.vn)</a>
-            <a href="#">Tuyển dụng</a>
-            <a href="#">Gửi góp ý, khiếu nại</a>
-            <a href="#">Tìm siêu thị (12 shop)</a>
+            <a href="#">(PickleMeow.vn)</a>
+            <a href="#">⎛⎝ ≽ > ⩊ < ≼ ⎠⎞</a>
+            <a href="#">( -_•)▄︻デ══━一💨</a>
+            <a href="#">╭∩╮(•̀_·́)╭∩╮</a>
         </div>
 
         <div class="footer-col">
             <h4>Thông tin khác</h4>
-            <a href="#">Tích điểm Quà tặng VIP</a>
+            <a href="#">꧁⎝ 𓆩༺✧༻𓆪 ⎠꧂</a>
             <a href="#">Lịch sử mua hàng</a>
-            <a href="#">Đăng ký bán hàng CTV chiết khấu cao</a>
-            <a href="#">Tìm hiểu về mua trả chậm</a>
-            <a href="#">Chính sách bảo hành</a>
-            <a href="#">Xem thêm ⌄</a>
+            <a href="#">💥╾━╤デ╦︻ඞා</a>
+            <a href="#">●█▀█▄</a>
+            <a href="#"> ▄█▀█●  </a>
+            <a href="#">ദ്ദി◝ ⩊ ◜.ᐟ</a>
         </div>
 
         <div class="footer-col">
             <h4>Kết nối với chúng tôi</h4>
             <div class="footer-socials">
-                <a href="#">🔵 3886.8k Fan</a>
-                <a href="#">🔴 876k Đăng ký</a>
-                <a href="#">💬 Zalo Shop</a>
+                <a href="#">🔵(つ╥﹏╥)つ ▬▬ι══════ﺤ</a>
+                <a href="#">🔴 𓇼 ⋆.˚ 𓆉 𓆝 𓆡⋆.˚ 𓇼</a>
+                <a href="#">💬 ⊹ ﹏𓊝﹏𓂁﹏⊹ ˖</a>
             </div>
             <div class="footer-certs">
                 <img src="../img/extra/meme2.jpg" alt="Đã thông báo Bộ Công Thương">

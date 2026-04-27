@@ -111,5 +111,5 @@ $categories = $stmt_cat->fetchAll();
 
 <div class="menu">
     <a href="#">Sản phẩm mới</a>
-    <a href="#">Khuyến mãi</a>
+    <a href="/basic_seller_web/pages/sale_off.php">Khuyến mãi</a>
 </div>
