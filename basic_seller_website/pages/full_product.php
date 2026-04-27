@@ -73,6 +73,7 @@ button:hover{background: #1557a6;}
 <div class="container">
     <h1 class="page-title">🛍️ Khám phá tất cả sản phẩm</h1>
 
+<<<<<<< HEAD
     <?php if(!empty($grouped_products)): ?>
         <div class="category-nav">
             <?php foreach(array_keys($grouped_products) as $cat_name): ?>
@@ -92,6 +93,27 @@ button:hover{background: #1557a6;}
                         
                     <?php endforeach; ?>
                 </div>
+=======
+    <div class="products">
+        <?php if(count($products) > 0): ?>
+            <?php foreach($products as $p): ?>
+                <div class="card">
+                    <img src="<?php echo (strpos($p['image'], 'http') === 0) 
+                        ? $p['image'] 
+                        : '/basic_seller_web/' . $p['image']; ?>">
+                    <h4><?php echo $p['name']; ?></h4>
+                    <div class="price"><?php echo number_format($p['price'], 0, ',', '.'); ?>đ</div>
+                    <button onclick="location.href='/basic_seller_web/pages/product.php?id=<?php echo $p['id']; ?>'">
+                        Xem chi tiết
+                    </button>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 10px;">
+                <h3 style="color: #666;">Chưa có sản phẩm nào.</h3>
+                <br>
+                <a href="/basic_seller_web/index.php" style="color: #1f6ed4; text-decoration: none;">← Quay lại trang chủ</a>
+>>>>>>> ea412e4f5c4a67209361142adaf9d22ac96bcc76
             </div>
 
         <?php endforeach; ?>
