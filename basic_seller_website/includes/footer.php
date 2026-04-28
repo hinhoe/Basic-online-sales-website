@@ -1,9 +1,6 @@
 <?php
 
-$base_path = (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false 
-            || strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false)
-            ? '../'
-            : '';
+$base_path = (basename($_SERVER['SCRIPT_NAME']) === 'index.php') ? '' : '../';
 
 ?>
 <style>

@@ -3,67 +3,49 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/header.php';
 
-// Nhận diện người dùng
-$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-$session_id = session_id();
+// 1. CHẶN NẾU CHƯA ĐĂNG NHẬP
+if (!isset($_SESSION['user_id'])) {
+    echo "<script>
+        alert('Vui lòng đăng nhập để xem giỏ hàng của bạn!');
+        window.location.href = '../auth/login.php';
+    </script>";
+    exit();
+}
 
-// 1. Xử lý Xóa sản phẩm khỏi giỏ
+$user_id = $_SESSION['user_id'];
+
+// 2. Xử lý Xóa sản phẩm khỏi giỏ
 if (isset($_GET['remove'])) {
     $id_remove = $_GET['remove'];
-    if ($user_id) {
-        $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?");
-        $stmt->execute([$user_id, $id_remove]);
-    } else {
-        $stmt = $conn->prepare("DELETE FROM cart_items WHERE session_id = ? AND product_id = ?");
-        $stmt->execute([$session_id, $id_remove]);
-    }
+    $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?");
+    $stmt->execute([$user_id, $id_remove]);
     header("Location: cart.php");
     exit();
 }
 
-// 2. Xử lý Cập nhật số lượng sản phẩm
+// 3. Xử lý Cập nhật số lượng sản phẩm
 if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty'])) {
     foreach ($_POST['qty'] as $product_id => $quantity) {
         $quantity = intval($quantity);
         if ($quantity > 0) {
-            // Cập nhật số lượng
-            if ($user_id) {
-                $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE user_id = ? AND product_id = ?");
-                $stmt->execute([$quantity, $user_id, $product_id]);
-            } else {
-                $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE session_id = ? AND product_id = ?");
-                $stmt->execute([$quantity, $session_id, $product_id]);
-            }
+            $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE user_id = ? AND product_id = ?");
+            $stmt->execute([$quantity, $user_id, $product_id]);
         } else {
-            // Xóa nếu nhập <= 0
-            if ($user_id) {
-                $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?");
-                $stmt->execute([$user_id, $product_id]);
-            } else {
-                $stmt = $conn->prepare("DELETE FROM cart_items WHERE session_id = ? AND product_id = ?");
-                $stmt->execute([$session_id, $product_id]);
-            }
+            $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?");
+            $stmt->execute([$user_id, $product_id]);
         }
     }
     header("Location: cart.php");
     exit();
 }
 
-// 3. Lấy dữ liệu giỏ hàng (JOIN bảng cart_items với products)
-$cart_products = [];
-$total_all = 0;
-
-if ($user_id) {
-    $sql = "SELECT c.quantity as cart_qty, p.* FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([$user_id]);
-} else {
-    $sql = "SELECT c.quantity as cart_qty, p.* FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.session_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute([$session_id]);
-}
-
+// 4. Lấy dữ liệu giỏ hàng của User này
+$sql = "SELECT c.quantity as cart_qty, p.* FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->execute([$user_id]);
 $cart_products = $stmt->fetchAll();
+
+$total_all = 0;
 ?>
 
 <!DOCTYPE html>
@@ -112,21 +94,38 @@ $cart_products = $stmt->fetchAll();
                 </thead>
                 <tbody>
                     <?php foreach ($cart_products as $p): 
-                        // Lấy số lượng từ CSDL thay vì $_SESSION
+                        // Lấy số lượng
                         $qty = $p['cart_qty']; 
-                        $subtotal = $p['price'] * $qty;
+                        
+                        // LOGIC TÍNH GIẢM GIÁ
+                        $original_price = (int)$p['price'];
+                        $discount = isset($p['discount']) ? (int)$p['discount'] : 0;
+                        $discount = max(0, min($discount, 90)); 
+                        
+                        // Giá chốt để tính tiền (nếu có giảm giá thì lấy giá sale, ko thì lấy giá gốc)
+                        $final_price = $original_price;
+                        if ($discount > 0) {
+                            $final_price = $original_price - ($original_price * $discount / 100);
+                            if($final_price <= 0) $final_price = 1000;
+                        }
+
+                        $subtotal = $final_price * $qty;
                         $total_all += $subtotal;
                     ?>
                     <tr>
                         <td>
                             <div class="product-info">
-                                <img src="<?php echo (strpos($p['image'], 'http') === 0) 
-                        ? $p['image'] 
-                        : '../' . $p['image']; ?> " alt="Ảnh sản phẩm">
+                                <img src="<?php echo (strpos($p['image'], 'http') === 0) ? $p['image'] : '/basic_seller_web/' . $p['image']; ?>" alt="Ảnh sản phẩm">
                                 <span><?php echo htmlspecialchars($p['name']); ?></span>
                             </div>
                         </td>
-                        <td class="price"><?php echo number_format($p['price'], 0, ',', '.'); ?>đ</td>
+                        <td class="price">
+                            <?php echo number_format($final_price, 0, ',', '.'); ?>đ
+                            <!-- Hiển thị nhỏ giá gốc gạch ngang ở dưới nếu có giảm giá -->
+                            <?php if($discount > 0): ?>
+                                <br><small style="color:#999; text-decoration:line-through; font-weight:normal;"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</small>
+                            <?php endif; ?>
+                        </td>
                         <td>
                             <input type="number" name="qty[<?php echo $p['id']; ?>]" value="<?php echo $qty; ?>" min="1" class="qty-input">
                         </td>

@@ -1,4 +1,6 @@
 <?php
+$base_path = (basename($_SERVER['SCRIPT_NAME']) === 'index.php') ? '' : '<?php echo $base_path; ?>';
+
 // đảm bảo có biến $p
 if(!isset($p)) return;
 
@@ -21,7 +23,7 @@ if($sale_price <= 0) $sale_price = 1000;
 ============================= */
 $img_src = !empty($p['image']) && strpos($p['image'], 'http') === 0
     ? $p['image']
-    : '../' . ($p['image'] ?? 'img/no-image.png');
+    : '<?php echo $base_path; ?>' . ($p['image'] ?? 'img/no-image.png');
 ?>
 
 <div class="card">
@@ -42,7 +44,7 @@ $img_src = !empty($p['image']) && strpos($p['image'], 'http') === 0
         <?php endif; ?>
     </div>
 
-    <button onclick="location.href='../pages/product.php?id=<?php echo $p['id']; ?>'">
+    <button onclick="location.href='<?php echo $base_path; ?>pages/product.php?id=<?php echo $p['id']; ?>'">
         Xem chi tiết
     </button>
 

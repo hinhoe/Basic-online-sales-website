@@ -116,8 +116,7 @@ function getStatusLabel($status) {
                             <td class="price-text"><?php echo number_format($o['total_amount'], 0, ',', '.'); ?>đ</td>
                             <td><?php echo getStatusLabel($o['status']); ?></td>
                             <td>
-                                <a href="#" class="btn-detail" onclick="alert('Tính năng xem chi tiết sẽ được cập nhật sau!')">Chi tiết</a>
-                            </td>
+                                <a href="order_detail.php?id=<?php echo $o['id']; ?>" class="btn-detail">Chi tiết</a>                            </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

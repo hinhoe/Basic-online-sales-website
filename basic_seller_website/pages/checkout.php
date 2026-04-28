@@ -25,8 +25,24 @@ if (empty($cart_products)) {
 }
 
 $total_all = 0;
+// Tạo một mảng lưu lại giá cuối cùng của mỗi sản phẩm để lúc lưu Database dùng lại cho chuẩn
+$final_prices = []; 
+
 foreach ($cart_products as $p) {
-    $total_all += $p['price'] * $p['cart_qty'];
+    $original_price = (int)$p['price'];
+    $discount = isset($p['discount']) ? (int)$p['discount'] : 0;
+    $discount = max(0, min($discount, 90)); 
+    
+    $final_price = $original_price;
+    if ($discount > 0) {
+        $final_price = $original_price - ($original_price * $discount / 100);
+        if($final_price <= 0) $final_price = 1000;
+    }
+    
+    // Lưu lại giá đã chốt
+    $final_prices[$p['id']] = $final_price;
+    
+    $total_all += $final_price * $p['cart_qty'];
 }
 
 // 2. Xử lý khi nhấn "Đặt hàng"
@@ -122,7 +138,8 @@ if (isset($_POST['place_order'])) {
         <?php foreach ($cart_products as $p): ?>
             <div class="summary-item">
                 <span><?php echo $p['name']; ?> (x<?php echo $p['cart_qty']; ?>)</span>
-                <span><?php echo number_format($p['price'] * $p['cart_qty'], 0, ',', '.'); ?>đ</span>
+                <!-- Dùng $final_prices để hiển thị giá -->
+                <span><?php echo number_format($final_prices[$p['id']] * $p['cart_qty'], 0, ',', '.'); ?>đ</span>
             </div>
         <?php endforeach; ?>
         <hr>

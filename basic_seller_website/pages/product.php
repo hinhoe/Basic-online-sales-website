@@ -1,27 +1,28 @@
-    <?php
+<?php
     session_start();
     require_once __DIR__ . '/../config/db.php';
     require_once __DIR__ . '/../includes/header.php'; 
 
-    // 1. Kiểm tra xem có ID sản phẩm trên URL không
     if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $id = $_GET['id'];
-
-        // 2. Truy vấn lấy thông tin chi tiết sản phẩm và tên danh mục (JOIN)
-        $sql = "SELECT p.*, c.name as category_name 
-                FROM products p 
-                JOIN categories c ON p.category_id = c.id 
-                WHERE p.id = :id";
-        
+        $sql = "SELECT p.*, c.name as category_name FROM products p JOIN categories c ON p.category_id = c.id WHERE p.id = :id";
         $stmt = $conn->prepare($sql);
         $stmt->execute(['id' => $id]);
         $product = $stmt->fetch();
 
-        // 3. Nếu không tìm thấy sản phẩm, quay về trang chủ
         if (!$product) {
             header("Location: ../index.php");
             exit();
         }
+
+        // BẮT ĐẦU THÊM LOGIC TÍNH GIẢM GIÁ Ở ĐÂY
+        $original_price = (int)$product['price'];
+        $discount = isset($product['discount']) ? (int)$product['discount'] : 0;
+        $discount = max(0, min($discount, 90)); 
+        $sale_price = $original_price - ($original_price * $discount / 100);
+        if($sale_price <= 0) $sale_price = 1000;
+        // KẾT THÚC THÊM LOGIC
+        
     } else {
         header("Location: ../index.php");
         exit();
@@ -35,7 +36,7 @@
     <title><?php echo $product['name']; ?> - PickleMeow Shop</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS cơ bản cho trang chi tiết */
+        /* CSS giữ nguyên của bạn, chỉ thêm 1 xíu cho giá gạch ngang */
         *{margin:0;padding:0;box-sizing:border-box;font-family:Inter}
         body{background:#f4f6f8}
         
@@ -44,7 +45,13 @@
         .product-img img{width:450px;border-radius:15px;object-fit: cover;}
         .product-info{flex:1}
         .badge{background:#e8f0fe;color:#2f6fd6;padding:6px 12px;border-radius:6px;display:inline-block;margin-bottom:10px;font-size:14px;font-weight:600;}
-        .price{color:#e53935;font-size:32px;font-weight:700;margin:15px 0;}
+        
+        /* CSS CHỈNH LẠI PHẦN GIÁ */
+        .price-box { margin: 15px 0; }
+        .new-price { color:#e53935;font-size:32px;font-weight:700; margin-right: 15px;}
+        .old-price { color: #999; font-size: 20px; text-decoration: line-through; }
+        .discount-tag { background: #e53935; color: white; padding: 4px 8px; border-radius: 4px; font-size: 14px; font-weight: bold; vertical-align: top;}
+        
         .add-cart{background:#e53935;color:white;padding:15px 30px;border:none;border-radius:10px;font-size:18px;font-weight:700;cursor:pointer;width:100%;}
         .desc{background:white;padding:30px;border-radius:15px;margin-top:25px;line-height:1.8;color:#444;}
         .desc h2{margin-bottom:15px;border-bottom:2px solid #f0f0f0;padding-bottom:10px;}
@@ -56,10 +63,7 @@
     <div class="container">
         <div class="product-flex">
             <div class="product-img">
-                <img src="<?php echo (strpos($product['image'], 'http') === 0) 
-        ? $product['image'] 
-        : '../' . $product['image']; ?>" 
-        alt="<?php echo $product['name']; ?>">
+                <img src="<?php echo (strpos($product['image'], 'http') === 0) ? $product['image'] : '../' . $product['image']; ?>" alt="<?php echo $product['name']; ?>">
             </div>
 
             <div class="product-info">
@@ -68,7 +72,16 @@
                 
                 <p style="color:#777; margin-top:10px;">Mã sản phẩm: <b>#PM-<?php echo $product['id']; ?></b></p>
                 
-                <div class="price"><?php echo number_format($product['price'], 0, ',', '.'); ?>đ</div>
+                <!-- CẬP NHẬT PHẦN HIỂN THỊ GIÁ Ở ĐÂY -->
+                <div class="price-box">
+                    <?php if($discount > 0): ?>
+                        <span class="new-price"><?php echo number_format($sale_price, 0, ',', '.'); ?>đ</span>
+                        <span class="old-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</span>
+                        <span class="discount-tag">-<?php echo $discount; ?>%</span>
+                    <?php else: ?>
+                        <span class="new-price"><?php echo number_format($original_price, 0, ',', '.'); ?>đ</span>
+                    <?php endif; ?>
+                </div>
 
                 <form action="../auth/add_to_cart.php" method="POST">
                     <div style="margin:20px 0;">
@@ -91,10 +104,7 @@
         <div class="desc">
             <h2>Mô tả sản phẩm</h2>
             <p>
-                <?php 
-                    // nl2br giúp giữ nguyên các dấu xuống dòng khi nhập từ database
-                    echo nl2br($product['description']); 
-                ?>
+                <?php echo nl2br($product['description']); ?>
             </p>
         </div>
     </div>

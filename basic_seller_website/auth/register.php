@@ -5,7 +5,7 @@ require_once __DIR__.'/../includes/header.php';
 
 // Nếu đã đăng nhập thì đẩy về trang chủ, không cho vào trang đăng ký nữa
 if (isset($_SESSION['user_id'])) {
-    header("Location: /basic_seller_web/index.php");
+    header("Location: ../index.php");
     exit();
 }
 
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute([$fullname, $email, $hashed_password])) {
                 $success_msg = "Đăng ký thành công! Đang chuyển hướng đến trang Đăng nhập...";
                 // Tự động chuyển về trang login sau 2 giây
-                header("refresh:2;url=login.php"); 
+                header("refresh:2;url=../auth/login.php"); 
             } else {
                 $error_msg = "Đã xảy ra lỗi hệ thống, vui lòng thử lại sau.";
             }
@@ -94,7 +94,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="auth-container">
     <div class="logo-container">
-        <img src="/basic_seller_web/img/pickle_meow_logo.png" alt="PickleMeow Logo">
+        <img src="../img/pickle_meow_logo.png" alt="PickleMeow Logo">
     </div>
     <h2>Tạo tài khoản mới</h2>
 
@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="msg success"><?php echo $success_msg; ?></div>
     <?php endif; ?>
 
-    <form action="/basic_seller_web/auth/register.php" method="POST">
+    <form action="register.php" method="POST">
         <div class="input-group">
             <label>Họ và Tên</label>
             <input type="text" name="fullname" placeholder="Nhập họ và tên..." required>

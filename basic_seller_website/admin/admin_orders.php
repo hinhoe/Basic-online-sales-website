@@ -138,8 +138,7 @@ function getStatusLabel($status) {
                         <div style="margin-top: 8px;"><?php echo getStatusLabel($o['status']); ?></div>
                     </td>
                     <td>
-                        <button class="btn" style="background:#7f8c8d;" onclick="alert('Tính năng xem chi tiết sản phẩm trong đơn sẽ cập nhật sau!')">Chi tiết</button>
-                    </td>
+                        <a href="admin_order_detail.php?id=<?php echo $o['id']; ?>" class="btn" style="background:#7f8c8d;">Chi tiết</a>                    </td>
                 </tr>
                 <?php endforeach; ?>
                 <?php if(empty($orders)): ?>
