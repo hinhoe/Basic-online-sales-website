@@ -165,6 +165,8 @@ body::after{ bottom:-80px; right:-80px; }
 
         <button type="submit" name="loginBtn">Đăng nhập</button>        
         <p>Chưa có tài khoản? <a href="/basic_seller_web/auth/register.php">Đăng ký ngay</a></p>
+        <p> <a href="/basic_seller_web/misc/maintenance.php">Quên mật khẩu</a></p>
+
     </form>
 </div>
 

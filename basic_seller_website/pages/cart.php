@@ -3,24 +3,45 @@ session_start();
 require_once __DIR__ . '/../config/db.php';
 require_once __DIR__ . '/../includes/header.php';
 
-// Xử lý Xóa sản phẩm khỏi giỏ
+// Nhận diện người dùng
+$user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$session_id = session_id();
+
+// 1. Xử lý Xóa sản phẩm khỏi giỏ
 if (isset($_GET['remove'])) {
     $id_remove = $_GET['remove'];
-    unset($_SESSION['cart'][$id_remove]);
+    if ($user_id) {
+        $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?");
+        $stmt->execute([$user_id, $id_remove]);
+    } else {
+        $stmt = $conn->prepare("DELETE FROM cart_items WHERE session_id = ? AND product_id = ?");
+        $stmt->execute([$session_id, $id_remove]);
+    }
     header("Location: cart.php");
     exit();
 }
 
-// Thêm đoạn logic này: Xử lý Cập nhật số lượng sản phẩm
-if (isset($_POST['update_cart'])) {
-    if (isset($_POST['qty']) && is_array($_POST['qty'])) {
-        foreach ($_POST['qty'] as $id => $quantity) {
-            $quantity = intval($quantity);
-            if ($quantity > 0) {
-                $_SESSION['cart'][$id] = $quantity;
+// 2. Xử lý Cập nhật số lượng sản phẩm
+if (isset($_POST['update_cart']) && isset($_POST['qty']) && is_array($_POST['qty'])) {
+    foreach ($_POST['qty'] as $product_id => $quantity) {
+        $quantity = intval($quantity);
+        if ($quantity > 0) {
+            // Cập nhật số lượng
+            if ($user_id) {
+                $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE user_id = ? AND product_id = ?");
+                $stmt->execute([$quantity, $user_id, $product_id]);
             } else {
-                // Nếu người dùng nhập số lượng <= 0, tự động xóa khỏi giỏ
-                unset($_SESSION['cart'][$id]);
+                $stmt = $conn->prepare("UPDATE cart_items SET quantity = ? WHERE session_id = ? AND product_id = ?");
+                $stmt->execute([$quantity, $session_id, $product_id]);
+            }
+        } else {
+            // Xóa nếu nhập <= 0
+            if ($user_id) {
+                $stmt = $conn->prepare("DELETE FROM cart_items WHERE user_id = ? AND product_id = ?");
+                $stmt->execute([$user_id, $product_id]);
+            } else {
+                $stmt = $conn->prepare("DELETE FROM cart_items WHERE session_id = ? AND product_id = ?");
+                $stmt->execute([$session_id, $product_id]);
             }
         }
     }
@@ -28,19 +49,21 @@ if (isset($_POST['update_cart'])) {
     exit();
 }
 
+// 3. Lấy dữ liệu giỏ hàng (JOIN bảng cart_items với products)
 $cart_products = [];
 $total_all = 0;
 
-if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
-    // Lấy danh sách ID để truy vấn 1 lần duy nhất (tối ưu hiệu năng)
-    $ids = array_keys($_SESSION['cart']);
-    $placeholders = implode(',', array_fill(0, count($ids), '?'));
-    
-    $sql = "SELECT * FROM products WHERE id IN ($placeholders)";
+if ($user_id) {
+    $sql = "SELECT c.quantity as cart_qty, p.* FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?";
     $stmt = $conn->prepare($sql);
-    $stmt->execute($ids);
-    $cart_products = $stmt->fetchAll();
+    $stmt->execute([$user_id]);
+} else {
+    $sql = "SELECT c.quantity as cart_qty, p.* FROM cart_items c JOIN products p ON c.product_id = p.id WHERE c.session_id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute([$session_id]);
 }
+
+$cart_products = $stmt->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -58,18 +81,12 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
         .product-info img { width: 60px; height: 60px; border-radius: 8px; object-fit: cover; }
         .price { color: #e53935; font-weight: bold; }
         .total-section { text-align: right; margin-top: 30px; padding-top: 20px; border-top: 2px solid #eee; }
-        
-        /* Chỉnh style cho ô input số lượng */
         .qty-input { width: 60px; padding: 8px; text-align: center; border: 1px solid #ccc; border-radius: 6px; outline: none;}
         .qty-input:focus { border-color: #2f6fd6; }
-        
         .btn-checkout { background: #2f6fd6; color: white; padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; }
         .btn-checkout:hover { background: #1f5bb8; }
-        
-        /* Nút cập nhật giỏ hàng */
         .btn-update { background: #e0e0e0; color: #333; padding: 12px 25px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; margin-right: 15px; transition: 0.2s;}
         .btn-update:hover { background: #d0d0d0; }
-        
         .btn-remove { color: #e53935; text-decoration: none; font-size: 14px; }
         .btn-remove:hover { text-decoration: underline; }
     </style>
@@ -95,7 +112,8 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                 </thead>
                 <tbody>
                     <?php foreach ($cart_products as $p): 
-                        $qty = $_SESSION['cart'][$p['id']];
+                        // Lấy số lượng từ CSDL thay vì $_SESSION
+                        $qty = $p['cart_qty']; 
                         $subtotal = $p['price'] * $qty;
                         $total_all += $subtotal;
                     ?>
@@ -123,7 +141,7 @@ if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
                 <h3>Tổng cộng: <span class="price" style="font-size: 24px;"><?php echo number_format($total_all, 0, ',', '.'); ?>đ</span></h3>
                 <br>
                 <button type="submit" name="update_cart" class="btn-update">CẬP NHẬT GIỎ HÀNG</button>
-                <button type="button" class="btn-checkout" onclick="alert('Tính năng thanh toán sẽ kết nối với bảng Orders ở bước sau!')">TIẾN HÀNH THANH TOÁN</button>
+                <button type="button" class="btn-checkout" onclick="window.location.href='checkout.php'">TIẾN HÀNH THANH TOÁN</button>
             </div>
         </form>
     <?php endif; ?>

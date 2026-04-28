@@ -92,9 +92,9 @@
     <div class="footer-container">
         <div class="footer-col">
             <h4>Tổng đài hỗ trợ</h4>
-            <p>Gọi mua: <span class="highlight">1900 232 460</span> (8:00 - 21:30)</p>
-            <p>Khiếu nại: <span class="highlight">1800 1062</span> (8:00 - 21:30)</p>
-            <p>Bảo hành: <span class="highlight">1900 232 464</span> (8:00 - 21:00)</p>
+            <p>Gọi mua: <span class="highlight">**** *** ***</span> (8:00 - 21:30)</p>
+            <p>Khiếu nại: <span class="highlight">**** *** ***</span> (8:00 - 21:30)</p>
+            <p>Bảo hành: <span class="highlight">**** *** ***</span> (8:00 - 21:00)</p>
         </div>
 
         <div class="footer-col">
@@ -123,8 +123,8 @@
                 <a href="#">💬 ⊹ ﹏𓊝﹏𓂁﹏⊹ ˖</a>
             </div>
             <div class="footer-certs">
-                <img src="../img/extra/meme2.jpg" alt="Đã thông báo Bộ Công Thương">
-                <img src="../img/extra/meme.jpg" alt="DMCA Protected">
+                <img src="/basic_seller_web/img/extra/meme2.jpg" alt="Đã thông báo Bộ Công Thương">
+                <img src="/basic_seller_web/img/extra/meme.jpg" alt="DMCA Protected">
             </div>
         </div>
     </div>

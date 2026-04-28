@@ -7,6 +7,20 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 
+CREATE TABLE cart_items (
+  id int(11) NOT NULL,
+  user_id int(11) DEFAULT NULL,
+  session_id varchar(255) DEFAULT NULL,
+  product_id int(11) NOT NULL,
+  quantity int(11) NOT NULL DEFAULT 1,
+  created_at timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO cart_items (id, user_id, session_id, product_id, quantity, created_at) VALUES
+(1, NULL, 'gka428m59hg7ns1celrolvtdoo', 49, 1, '2026-04-28 05:57:50'),
+(3, NULL, 'gka428m59hg7ns1celrolvtdoo', 48, 1, '2026-04-28 05:58:26'),
+(6, 7, 'gka428m59hg7ns1celrolvtdoo', 48, 300, '2026-04-28 05:59:10');
+
 CREATE TABLE categories (
   id int(11) NOT NULL,
   name varchar(100) NOT NULL
@@ -21,11 +35,18 @@ INSERT INTO categories (id, name) VALUES
 
 CREATE TABLE orders (
   id int(11) NOT NULL,
-  user_id int(11) NOT NULL,
-  total_price int(11) NOT NULL,
+  user_id int(11) DEFAULT NULL,
+  full_name varchar(255) NOT NULL,
+  email varchar(255) NOT NULL,
+  phone varchar(20) NOT NULL,
+  address text NOT NULL,
+  total_amount decimal(15,2) NOT NULL,
   status enum('pending','processing','shipped','completed','cancelled') DEFAULT 'pending',
   created_at timestamp NOT NULL DEFAULT current_timestamp()
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO orders (id, user_id, full_name, email, phone, address, total_amount, status, created_at) VALUES
+(1, 8, 'asd', '231212@gmail', '132', '123213123', 6884.00, 'pending', '2026-04-28 06:08:26');
 
 CREATE TABLE order_details (
   order_id int(11) NOT NULL,
@@ -33,6 +54,19 @@ CREATE TABLE order_details (
   quantity int(11) NOT NULL,
   price int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE order_items (
+  id int(11) NOT NULL,
+  order_id int(11) NOT NULL,
+  product_id int(11) NOT NULL,
+  quantity int(11) NOT NULL,
+  price decimal(15,2) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO order_items (id, order_id, product_id, quantity, price) VALUES
+(1, 1, 49, 1, 2000.00),
+(2, 1, 42, 1, 444.00),
+(3, 1, 43, 10, 444.00);
 
 CREATE TABLE products (
   id int(11) NOT NULL,
@@ -104,16 +138,22 @@ INSERT INTO users (id, fullname, email, phone, address, password, role, created_
 (10, 'đạt chó', 'vlxx@concac', NULL, NULL, '$2y$10$FpNASvinnDdaE/HSBer7tOf.wSlPNug7KyCdovO2jObrFBdmO7SI6', 'user', '2026-04-24 12:25:08', 'default.png');
 
 
+ALTER TABLE cart_items
+  ADD PRIMARY KEY (id);
+
 ALTER TABLE categories
   ADD PRIMARY KEY (id);
 
 ALTER TABLE orders
-  ADD PRIMARY KEY (id),
-  ADD KEY user_id (user_id);
+  ADD PRIMARY KEY (id);
 
 ALTER TABLE order_details
   ADD PRIMARY KEY (order_id,product_id),
   ADD KEY product_id (product_id);
+
+ALTER TABLE order_items
+  ADD PRIMARY KEY (id),
+  ADD KEY order_id (order_id);
 
 ALTER TABLE products
   ADD PRIMARY KEY (id),
@@ -124,10 +164,16 @@ ALTER TABLE users
   ADD UNIQUE KEY email (email);
 
 
+ALTER TABLE cart_items
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE categories
   MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE orders
+  MODIFY id int(11) NOT NULL AUTO_INCREMENT;
+
+ALTER TABLE order_items
   MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 ALTER TABLE products
@@ -137,12 +183,12 @@ ALTER TABLE users
   MODIFY id int(11) NOT NULL AUTO_INCREMENT;
 
 
-ALTER TABLE orders
-  ADD CONSTRAINT orders_ibfk_1 FOREIGN KEY (user_id) REFERENCES `users` (id) ON DELETE CASCADE;
-
 ALTER TABLE order_details
   ADD CONSTRAINT order_details_ibfk_1 FOREIGN KEY (order_id) REFERENCES `orders` (id) ON DELETE CASCADE,
   ADD CONSTRAINT order_details_ibfk_2 FOREIGN KEY (product_id) REFERENCES products (id) ON DELETE CASCADE;
+
+ALTER TABLE order_items
+  ADD CONSTRAINT order_items_ibfk_1 FOREIGN KEY (order_id) REFERENCES `orders` (id) ON DELETE CASCADE;
 
 ALTER TABLE products
   ADD CONSTRAINT products_ibfk_1 FOREIGN KEY (category_id) REFERENCES categories (id) ON DELETE CASCADE;

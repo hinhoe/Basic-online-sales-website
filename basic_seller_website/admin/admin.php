@@ -176,6 +176,7 @@ $categories = $conn->query("SELECT * FROM categories")->fetchAll();
         <nav>
             <a href="/basic_seller_web/index.php" style="color: #000000 ">🏠 Trở về Shop</a>
             <a href="/basic_seller_web/admin/admin.php" class="active">🛍️ Quản lý Sản phẩm</a>
+            <a href="/basic_seller_web/admin/admin_orders.php" style="color: #000000">📦 Quản lý Đơn hàng</a>
             <a href="/basic_seller_web/auth/logout.php" style="color: #000000; margin-top: 50px;">🚪 Đăng xuất</a>
         </nav>
     </div>

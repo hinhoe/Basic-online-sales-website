@@ -94,8 +94,8 @@ $display_avatar = !empty($user['avatar']) ? "/basic_seller_web/img/avatars/" . $
         <p style="color:#777; font-size:14px;"><?php echo htmlspecialchars($user['email']); ?></p>
         <div style="margin-top:20px;">
             <a href="/basic_seller_web/pages/user.php" class="menu-item active">👤 Thông tin cá nhân</a>
-            <a href="/basic_seller_web/pages/cart.php" class="menu-item">📦 Đơn hàng của tôi</a>
-            <a href="/basic_seller_web/admin/admin.php" class="menu-item">🔧 chỉnh sửa đơn hàng</a>
+            <a href="/basic_seller_web/pages/cart.php" class="menu-item"> Giỏ hàng của tôi</a>
+            <a href="/basic_seller_web/pages/my_orders.php" class="menu-item">📦Đơn hàng của tôi</a>
             <a href="/basic_seller_web/auth/logout.php" class="menu-item">Đăng xuất</a>
 
         </div>
