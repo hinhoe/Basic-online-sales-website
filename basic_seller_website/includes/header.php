@@ -1,4 +1,9 @@
 <?php
+
+$base_path = (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false 
+            || strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false)
+            ? '../'
+            : '';
 // header.php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -6,14 +11,14 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../config/db.php';
 
 // 0. Lấy Avatar
-$avatar_top = "/basic_seller_web/img/avatars/default.png";
+$avatar_top = $base_path .  "img/avatars/default.png";
 if (isset($_SESSION['user_id'])) {
     $stmt_u = $conn->prepare("SELECT avatar FROM users WHERE id = ?");
     $stmt_u->execute([$_SESSION['user_id']]);
     $current_user = $stmt_u->fetch();
     
     if ($current_user && !empty($current_user['avatar'])) {
-        $avatar_top = "/basic_seller_web/img/avatars/" . $current_user['avatar'];
+        $avatar_top = $base_path .  "img/avatars/" . $current_user['avatar'];
     }
 }
 
@@ -74,42 +79,42 @@ $categories = $stmt_cat->fetchAll();
 <body>
 
 <div class="topbar">
-    <a href="/basic_seller_web/index.php" class="logo">
-        <img src="/basic_seller_web/img/pickle_meow_logo.png" alt="Logo">
+    <a href="<?php echo $base_path; ?>index.php" class="logo">
+        <img src="<?php echo $base_path; ?>img/pickle_meow_logo.png" alt="Logo">
         PickleMeow Shop
     </a>
 
     <div class="search-box">
-        <form action="/basic_seller_web/pages/search.php" method="GET">
+        <form action="<?php echo $base_path; ?>pages/search.php" method="GET">
             <input type="text" name="q" placeholder="Tìm kiếm sản phẩm... (Nhấn Enter)" required>
         </form>
     </div>
 
     <div class="header-links">
-        <a href="/basic_seller_web/pages/cart.php">Giỏ hàng</a>
+        <a href="<?php echo $base_path; ?>pages/cart.php">Giỏ hàng</a>
 
         <?php if(isset($_SESSION['user_id'])): ?>
             <?php if(isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                <a href="/basic_seller_web/admin/admin.php">Chỉnh sửa sản phẩm</a>
+                <a href="<?php echo $base_path; ?>admin/admin.php">Chỉnh sửa sản phẩm</a>
             <?php endif; ?>
 
             <div class="user-menu">
-                <a href="/basic_seller_web/pages/user.php">
+                <a href="<?php echo $base_path; ?>pages/user.php">
                     <img src="<?php echo $avatar_top; ?>" alt="User Avatar" class="avatar-img-top">
                 </a>
                 <div class="user-dropdown">
-                    <a href="/basic_seller_web/pages/user.php">Hồ sơ cá nhân</a>
-                    <a href="/basic_seller_web/auth/logout.php">Đăng xuất</a>
+                    <a href="<?php echo $base_path; ?>pages/user.php">Hồ sơ cá nhân</a>
+                    <a href="<?php echo $base_path; ?>auth/logout.php">Đăng xuất</a>
                 </div>
             </div>
 
         <?php else: ?>
-            <a href="/basic_seller_web/auth/login.php">Đăng nhập</a>
+            <a href="<?php echo $base_path; ?>auth/login.php">Đăng nhập</a>
         <?php endif; ?>
     </div>
 </div>
 
 <div class="menu">
     <a href="#">Sản phẩm mới</a>
-    <a href="/basic_seller_web/pages/sale_off.php">Khuyến mãi</a>
+    <a href="<?php echo $base_path; ?>pages/sale_off.php">Khuyến mãi</a>
 </div>

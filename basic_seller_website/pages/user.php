@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
         $ext = strtolower(pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION));
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
             $avatar_name = "user_" . $user_id . "_" . time() . "." . $ext;
-            if (move_uploaded_file($_FILES['avatar']['tmp_name'], "/basic_seller_web/img/avatars/" . $avatar_name)) {
+            if (move_uploaded_file($_FILES['avatar']['tmp_name'], "..img/avatars/" . $avatar_name)) {
                 $avatar_sql = ", avatar = '$avatar_name'";
             }
         }
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
 $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
-$display_avatar = !empty($user['avatar']) ? "/basic_seller_web/img/avatars/" . $user['avatar'] : "/basic_seller_web/img/avatars/default.png";
+$display_avatar = !empty($user['avatar']) ? "../img/avatars/" . $user['avatar'] : "../img/avatars/default.png";
 ?>
 
 <!DOCTYPE html>
@@ -93,10 +93,10 @@ $display_avatar = !empty($user['avatar']) ? "/basic_seller_web/img/avatars/" . $
         <h3><?php echo htmlspecialchars($user['fullname']); ?></h3>
         <p style="color:#777; font-size:14px;"><?php echo htmlspecialchars($user['email']); ?></p>
         <div style="margin-top:20px;">
-            <a href="/basic_seller_web/pages/user.php" class="menu-item active">👤 Thông tin cá nhân</a>
-            <a href="/basic_seller_web/pages/cart.php" class="menu-item"> Giỏ hàng của tôi</a>
-            <a href="/basic_seller_web/pages/my_orders.php" class="menu-item">📦Đơn hàng của tôi</a>
-            <a href="/basic_seller_web/auth/logout.php" class="menu-item">Đăng xuất</a>
+            <a href="user.php" class="menu-item active">👤 Thông tin cá nhân</a>
+            <a href="cart.php" class="menu-item"> Giỏ hàng của tôi</a>
+            <a href="my_orders.php" class="menu-item">📦Đơn hàng của tôi</a>
+            <a href="../auth/logout.php" class="menu-item">Đăng xuất</a>
 
         </div>
     </div>

@@ -100,7 +100,7 @@ button:hover{background: #1557a6;}
         <div style="text-align: center; padding: 50px; background: white; border-radius: 10px;">
             <h3 style="color: #666;">Cửa hàng hiện chưa có sản phẩm nào.</h3>
             <br>
-            <a href="/basic_seller_web/index.php" style="color: #1f6ed4; text-decoration: none; font-weight: bold;">&larr; Về trang chủ</a>
+            <a href="../index.php" style="color: #1f6ed4; text-decoration: none; font-weight: bold;">&larr; Về trang chủ</a>
         </div>
     <?php endif; ?>
 

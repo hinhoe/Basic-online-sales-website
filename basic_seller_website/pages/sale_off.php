@@ -95,7 +95,7 @@ button:hover {background: #1557a6;}
                         
                         <img src="<?php echo (strpos($p['image'], 'http') === 0) 
                             ? $p['image'] 
-                            : '/basic_seller_web/' . $p['image']; ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
+                            : '../' . $p['image']; ?>" alt="<?php echo htmlspecialchars($p['name']); ?>">
                         
                         <h4><?php echo htmlspecialchars($p['name']); ?></h4>
                         
@@ -116,7 +116,7 @@ button:hover {background: #1557a6;}
             <h3 style="color: #666; font-size: 20px;">Hiện tại Shop chưa có chương trình khuyến mãi nào 😭</h3>
             <p style="color: #999; margin-top: 10px;">Bạn hãy quay lại sau nhé!</p>
             <br>
-            <a href="/basic_seller_web/index.php" style="display: inline-block; padding: 10px 20px; background: #1f6ed4; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">&larr; Khám phá sản phẩm khác</a>
+            <a href="../index.php" style="display: inline-block; padding: 10px 20px; background: #1f6ed4; color: white; border-radius: 8px; text-decoration: none; font-weight: bold;">&larr; Khám phá sản phẩm khác</a>
         </div>
     <?php endif; ?>
 </div>

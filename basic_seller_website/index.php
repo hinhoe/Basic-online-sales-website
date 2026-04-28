@@ -1,6 +1,6 @@
 <?php
 // Tự động nạp session, DB, avatar, logic menu, HTML head, topbar...
-require_once 'includes/header.php'; 
+require_once  'includes/header.php'; 
 
 // 1. Lấy danh sách sản phẩm mới nhất (tối đa 8 cái)
 $sql_products = "SELECT * FROM products ORDER BY id DESC LIMIT 8";
@@ -102,11 +102,11 @@ if (count($banners) == 0) {
 <body>
 <div class="container">
     <div class="sidebar">
-        <h3> <a href="/basic_seller_web/pages/full_product.php"> Danh mục </a> </h3>
+        <h3> <a href="pages/full_product.php"> Danh mục </a> </h3>
         <ul>
         <?php foreach($categories as $cat): ?>
             <li>
-                <a href="/basic_seller_web/pages/category.php?id=<?php echo $cat['id']; ?>">
+                <a href="pages/category.php?id=<?php echo $cat['id']; ?>">
                     <?php echo $cat['name']; ?>
                 </a>
                 <div class="mega-menu">
@@ -119,9 +119,10 @@ if (count($banners) == 0) {
                             $discount_mega = isset($p_mega['discount']) ? (int)$p_mega['discount'] : 0;
                             $original_price_mega = $p_mega['price'];
                             $sale_price_mega = $original_price_mega - ($original_price_mega * $discount_mega / 100);
-                            $img_mega_src = (strpos($p_mega['image'], 'http') === 0) ? $p_mega['image'] : '/basic_seller_web/' . $p_mega['image'];
-                        ?>
-                            <a class="mega-item" href="/basic_seller_web/pages/product.php?id=<?php echo $p_mega['id']; ?>">
+                            $img_mega_src = (strpos($p_mega['image'], 'http') === 0) 
+                                ? $p_mega['image'] 
+                                : $p_mega['image'];                        ?>
+                            <a class="mega-item" href="pages/product.php?id=<?php echo $p_mega['id']; ?>">
                                 <div style="position: relative;">
                                     <?php if($discount_mega > 0): ?>
                                         <div style="position: absolute; top: -5px; left: -5px; background: #e74c3c; color: white; font-size: 10px; font-weight: bold; padding: 2px 4px; border-radius: 5px; z-index: 2;">-<?php echo $discount_mega; ?>%</div>
@@ -156,9 +157,10 @@ if (count($banners) == 0) {
                 <?php foreach($banners as $banner): ?>
                     <?php 
                         // Xử lý đường dẫn ảnh
-                        $img_src = (strpos($banner['image'], 'http') === 0) ? $banner['image'] : '/basic_seller_web/' . $banner['image']; 
-                        // Link tới sản phẩm (nếu id = 0 thì không link)
-                        $link = ($banner['id'] > 0) ? "/basic_seller_web/pages/product.php?id=" . $banner['id'] : "javascript:void(0)";
+                        $img_src = (strpos($banner['image'], 'http') === 0) 
+                            ? $banner['image'] 
+                            : $banner['image'];                        // Link tới sản phẩm (nếu id = 0 thì không link)
+                        $link = ($banner['id'] > 0) ? "pages/product.php?id=" . $banner['id'] : "javascript:void(0)";
                     ?>
                     <div class="carousel-slide" onclick="location.href='<?php echo $link; ?>'">
                         <img src="<?php echo $img_src; ?>" alt="<?php echo htmlspecialchars($banner['name']); ?>">

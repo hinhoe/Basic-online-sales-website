@@ -9,6 +9,6 @@ session_unset();
 session_destroy();
 
 // 4. Điều hướng người dùng về lại trang đăng nhập (hoặc trang chủ)
-header("Location: /basic_seller_web/auth/login.php");
+header("Location: ../auth/login.php");
 exit();
 ?>

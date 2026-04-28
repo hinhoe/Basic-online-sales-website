@@ -21,7 +21,7 @@ if($sale_price <= 0) $sale_price = 1000;
 ============================= */
 $img_src = !empty($p['image']) && strpos($p['image'], 'http') === 0
     ? $p['image']
-    : '/basic_seller_web/' . ($p['image'] ?? 'img/no-image.png');
+    : '../' . ($p['image'] ?? 'img/no-image.png');
 ?>
 
 <div class="card">
@@ -42,7 +42,7 @@ $img_src = !empty($p['image']) && strpos($p['image'], 'http') === 0
         <?php endif; ?>
     </div>
 
-    <button onclick="location.href='/basic_seller_web/pages/product.php?id=<?php echo $p['id']; ?>'">
+    <button onclick="location.href='../pages/product.php?id=<?php echo $p['id']; ?>'">
         Xem chi tiết
     </button>
 

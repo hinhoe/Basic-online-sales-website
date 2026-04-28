@@ -97,7 +97,7 @@ $cart_products = $stmt->fetchAll();
     <h2>Giỏ hàng của bạn</h2>
 
     <?php if (empty($cart_products)): ?>
-        <p style="text-align:center; padding: 40px;">Giỏ hàng trống. <a href="/basic_seller_web/index.php">Mua sắm ngay!</a></p>
+        <p style="text-align:center; padding: 40px;">Giỏ hàng trống. <a href="../index.php">Mua sắm ngay!</a></p>
     <?php else: ?>
         <form action="cart.php" method="POST">
             <table>
@@ -122,7 +122,7 @@ $cart_products = $stmt->fetchAll();
                             <div class="product-info">
                                 <img src="<?php echo (strpos($p['image'], 'http') === 0) 
                         ? $p['image'] 
-                        : '/basic_seller_web/' . $p['image']; ?> " alt="Ảnh sản phẩm">
+                        : '../' . $p['image']; ?> " alt="Ảnh sản phẩm">
                                 <span><?php echo htmlspecialchars($p['name']); ?></span>
                             </div>
                         </td>

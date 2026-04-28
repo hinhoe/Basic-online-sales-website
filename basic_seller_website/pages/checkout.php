@@ -62,7 +62,7 @@ if (isset($_POST['place_order'])) {
         }
 
         $conn->commit();
-        echo "<script>alert('Đặt hàng thành công! Mã đơn hàng của bạn là: #$order_id'); window.location.href='/basic_seller_web/index.php';</script>";
+        echo "<script>alert('Đặt hàng thành công! Mã đơn hàng của bạn là: #$order_id'); window.location.href='../index.php';</script>";
         exit();
 
     } catch (Exception $e) {

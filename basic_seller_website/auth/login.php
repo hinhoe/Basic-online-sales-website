@@ -29,9 +29,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['loginBtn'])) {
 
             // 3. Điều hướng dựa trên quyền hạn
             if ($user['role'] == 'admin') {
-                header("Location: /basic_seller_web/admin/admin.php");
+                header("Location: ../admin/admin.php");
             } else {
-                header("Location: /basic_seller_web/index.php");
+                header("Location: ../index.php");
             }
             exit();
         } else {
@@ -153,7 +153,7 @@ body::after{ bottom:-80px; right:-80px; }
 <body>
 
 <div class="login-container">
-    <form action="/basic_seller_web/auth/login.php" method="POST" class="login-box">
+    <form action="../auth/login.php" method="POST" class="login-box">
         <h2>ĐĂNG NHẬP</h2>
         
         <?php if ($isPost && !empty($error)): ?>
@@ -164,8 +164,8 @@ body::after{ bottom:-80px; right:-80px; }
         <input type="password" name="password" placeholder="Mật khẩu" required>
 
         <button type="submit" name="loginBtn">Đăng nhập</button>        
-        <p>Chưa có tài khoản? <a href="/basic_seller_web/auth/register.php">Đăng ký ngay</a></p>
-        <p> <a href="/basic_seller_web/misc/maintenance.php">Quên mật khẩu</a></p>
+        <p>Chưa có tài khoản? <a href="../auth/register.php">Đăng ký ngay</a></p>
+        <p> <a href="../misc/maintenance.php">Quên mật khẩu</a></p>
 
     </form>
 </div>

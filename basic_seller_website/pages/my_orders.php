@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/header.php';
 
 // Kiểm tra đăng nhập
 if (!isset($_SESSION['user_id'])) {
-    header("Location: /basic_seller_web/auth/login.php");
+    header("Location: ../auth/login.php");
     exit();
 }
 
@@ -15,7 +15,7 @@ $user_id = $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
 $stmt->execute([$user_id]);
 $user = $stmt->fetch();
-$display_avatar = !empty($user['avatar']) ? "/basic_seller_web/img/avatars/" . $user['avatar'] : "/basic_seller_web/img/avatars/default.png";
+$display_avatar = !empty($user['avatar']) ? "../img/avatars/" . $user['avatar'] : "../img/avatars/default.png";
 
 // Lấy danh sách đơn hàng của user này
 $stmt_orders = $conn->prepare("SELECT * FROM orders WHERE user_id = ? ORDER BY created_at DESC");
@@ -82,10 +82,10 @@ function getStatusLabel($status) {
         <h3><?php echo htmlspecialchars($user['fullname']); ?></h3>
         <p style="color:#777; font-size:14px;"><?php echo htmlspecialchars($user['email']); ?></p>
         <div style="margin-top:20px;">
-            <a href="/basic_seller_web/pages/user.php" class="menu-item">👤 Thông tin cá nhân</a>
-            <a href="/basic_seller_web/pages/cart.php" class="menu-item">🛒 Giỏ hàng của tôi</a>
-            <a href="/basic_seller_web/pages/my_orders.php" class="menu-item active">📦 Đơn hàng của tôi</a>
-            <a href="/basic_seller_web/auth/logout.php" class="menu-item">🚪 Đăng xuất</a>
+            <a href="user.php" class="menu-item">👤 Thông tin cá nhân</a>
+            <a href="cart.php" class="menu-item">🛒 Giỏ hàng của tôi</a>
+            <a href="my_orders.php" class="menu-item active">📦 Đơn hàng của tôi</a>
+            <a href="../auth/logout.php" class="menu-item">🚪 Đăng xuất</a>
         </div>
     </div>
 
@@ -95,7 +95,7 @@ function getStatusLabel($status) {
         <?php if (empty($my_orders)): ?>
             <div style="text-align: center; padding: 40px 0; color: #777;">
                 <p>Bạn chưa có đơn hàng nào.</p>
-                <a href="/basic_seller_web/index.php" style="color: #2f6fd6; text-decoration: none; font-weight: bold; display:inline-block; margin-top: 10px;">Bắt đầu mua sắm ngay!</a>
+                <a href="../index.php" style="color: #2f6fd6; text-decoration: none; font-weight: bold; display:inline-block; margin-top: 10px;">Bắt đầu mua sắm ngay!</a>
             </div>
         <?php else: ?>
             <table class="order-table">

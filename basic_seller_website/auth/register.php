@@ -131,8 +131,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </form>
 
     <div class="auth-links">
-        Đã có tài khoản? <a href="/basic_seller_web/auth/login.php">Đăng nhập tại đây</a><br><br>
-        <a href="/basic_seller_web/index.php" style="color: #888;">&larr; Quay lại Trang chủ</a>
+        Đã có tài khoản? <a href="../auth/login.php">Đăng nhập tại đây</a><br><br>
+        <a href="../index.php" style="color: #888;">&larr; Quay lại Trang chủ</a>
     </div>
 </div>
 

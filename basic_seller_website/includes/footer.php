@@ -1,3 +1,11 @@
+<?php
+
+$base_path = (strpos($_SERVER['SCRIPT_NAME'], '/pages/') !== false 
+            || strpos($_SERVER['SCRIPT_NAME'], '/admin/') !== false)
+            ? '../'
+            : '';
+
+?>
 <style>
     /* ===== FOOTER ===== */
 .site-footer {
@@ -123,8 +131,8 @@
                 <a href="#">💬 ⊹ ﹏𓊝﹏𓂁﹏⊹ ˖</a>
             </div>
             <div class="footer-certs">
-                <img src="/basic_seller_web/img/extra/meme2.jpg" alt="Đã thông báo Bộ Công Thương">
-                <img src="/basic_seller_web/img/extra/meme.jpg" alt="DMCA Protected">
+                <img src="<?php echo $base_path; ?>img/extra/meme2.jpg" alt="Đã thông báo Bộ Công Thương">
+                <img src="<?php echo $base_path; ?>img/extra/meme.jpg" alt="DMCA Protected">
             </div>
         </div>
     </div>

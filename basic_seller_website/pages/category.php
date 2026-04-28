@@ -15,7 +15,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
     // Nếu khách nhập sai ID (danh mục không tồn tại), đẩy về trang chủ
     if (!$category) {
-        header("Location: /basic_seller_web/index.php");        
+        header("Location: ../index.php");        
         exit();
     }
 
@@ -27,7 +27,7 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
 } else {
     // Không có ID thì về trang chủ
-    header("Location: /basic_seller_web/index.php");
+    header("Location: ../index.php");
     exit();
 }
 ?>
@@ -83,7 +83,7 @@ button:hover{background: #1557a6;}
             <div style="grid-column: 1 / -1; text-align: center; padding: 40px; background: white; border-radius: 10px;">
                 <h3 style="color: #666;">Chưa có sản phẩm nào trong danh mục này.</h3>
                 <br>
-                <a href="/basic_seller_web/index.php" style="color: #1f6ed4; text-decoration: none; font-weight: bold;">&larr; Quay lại trang chủ</a>
+                <a href="../index.php" style="color: #1f6ed4; text-decoration: none; font-weight: bold;">&larr; Quay lại trang chủ</a>
             </div>
         <?php endif; ?>
     </div>

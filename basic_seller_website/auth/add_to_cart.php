@@ -36,6 +36,6 @@ if (isset($_POST['product_id'])) {
         $stmt_insert->execute([$user_id, $session_id, $product_id, $quantity]);
     }
 
-    header("Location: /basic_seller_web/pages/cart.php");
+    header("Location: ../pages/cart.php");
     exit();
 }

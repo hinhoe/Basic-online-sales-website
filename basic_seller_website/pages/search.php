@@ -78,7 +78,7 @@ if (isset($_GET['q'])) {
                 <h3>Rất tiếc, không tìm thấy sản phẩm nào phù hợp với từ khóa này.</h3>
                 <p>Vui lòng thử lại bằng các từ khóa khác ngắn gọn hoặc chung chung hơn (Ví dụ: "Điện thoại", "Tai nghe").</p>
                 <br>
-                <a href="/basic_seller_web/index.php" style="color: #2f6fd6; text-decoration: none; font-weight: bold;">&larr; Quay lại trang chủ</a>
+                <a href="../index.php" style="color: #2f6fd6; text-decoration: none; font-weight: bold;">&larr; Quay lại trang chủ</a>
             </div>
         <?php endif; ?>
     </div>

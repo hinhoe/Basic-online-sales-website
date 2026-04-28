@@ -4,7 +4,7 @@ require_once __DIR__.'/../config/db.php';
 
 // KIỂM TRA QUYỀN ADMIN
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'admin') {
-    header("Location: /basic_seller_web/misc/ey.php");
+    header("Location: ../misc/ey.php");
     exit();
 }
 
@@ -78,16 +78,16 @@ function getStatusLabel($status) {
 <div class="sum">
     <div class="sidebar">
         <div class="logot">
-            <a href="/basic_seller_web/index.php" class="logo">
-                <img src="/basic_seller_web/img/pickle_meow_logo.png">                <br>PickleMeow Shop
+            <a href="../index.php" class="logo">
+                <img src="../img/pickle_meow_logo.png">                <br>PickleMeow Shop
             </a>    
         </div>
         
         <nav>
-            <a href="/basic_seller_web/index.php" style="color: #000000 ">🏠 Trở về Shop</a>
-            <a href="/basic_seller_web/admin/admin.php" style="color: #000000">🛍️ Quản lý Sản phẩm</a>
-            <a href="/basic_seller_web/admin/admin_orders.php" class="active">📦 Quản lý Đơn hàng</a>
-            <a href="/basic_seller_web/auth/logout.php" style="color: #000000; margin-top: 50px;">🚪 Đăng xuất</a>
+            <a href="../index.php" style="color: #000000 ">🏠 Trở về Shop</a>
+            <a href="../admin/admin.php" style="color: #000000">🛍️ Quản lý Sản phẩm</a>
+            <a href="../admin/admin_orders.php" class="active">📦 Quản lý Đơn hàng</a>
+            <a href="../auth/logout.php" style="color: #000000; margin-top: 50px;">🚪 Đăng xuất</a>
         </nav>
     </div>
 

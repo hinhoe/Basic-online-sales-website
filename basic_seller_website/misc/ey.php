@@ -1,5 +1,5 @@
 <?php
-header("refresh:2;url=/basic_seller_web/index.php");
+header("refresh:2;url=../index.php");
 ?>
 <!DOCTYPE html>
 <html lang="vi">
